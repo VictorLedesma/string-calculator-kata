@@ -12,6 +12,8 @@ final class StringCalculator
             return '0';
         }
 
+        $numbers = str_replace("\n", ',', $numbers);
+
         $parts = explode(',', $numbers);
 
         if (count($parts) === 1) {
