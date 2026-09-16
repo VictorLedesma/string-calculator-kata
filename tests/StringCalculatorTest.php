@@ -52,4 +52,10 @@ final class StringCalculatorTest extends TestCase
     {
         $this->assertSame('Error: Invalid input', $this->calculator->add("1,\n"));
     }
+
+    #[Test]
+    public function it_can_not_finish_with_a_separator(): void
+    {
+        $this->assertSame('Error: Invalid input', $this->calculator->add("1,2,"));
+    }
 }
