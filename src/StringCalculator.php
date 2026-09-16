@@ -11,7 +11,11 @@ final class StringCalculator
         if ($numbers === "") {
             return '0';
         }
+        $invalidPosition = strpos($numbers, ",\n");
 
+        if ($invalidPosition !== false) {
+            return 'Error: Invalid input';
+        }
         $numbers = str_replace("\n", ',', $numbers);
 
         $parts = explode(',', $numbers);
