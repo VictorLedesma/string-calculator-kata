@@ -46,4 +46,10 @@ final class StringCalculatorTest extends TestCase
     {
         $this->assertSame('6', $this->calculator->add("1\n2,3"));
     }
+
+    #[Test]
+    public function it_returns_error_when_line_break_follows_a_comma(): void
+    {
+        $this->assertSame('Error: Invalid input', $this->calculator->add("1,\n"));
+    }
 }
