@@ -12,9 +12,15 @@ final class StringCalculator
             return '0';
         }
 
-        return '1';
-    }
+        $parts = explode(',', $numbers);
 
+        if (count($parts) === 1) {
+            return $numbers;
+        }
+
+        return (string) array_sum(array_map('floatval', $parts));
+
+    }
 
 }
 
