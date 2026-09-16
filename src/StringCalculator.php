@@ -8,7 +8,13 @@ final class StringCalculator
 {
     public function add(string $numbers): string
     {
-        return '0';
+        if ($numbers === "") {
+            return '0';
+        }
+
+        return '1';
     }
+
+
 }
 
