@@ -40,4 +40,10 @@ final class StringCalculatorTest extends TestCase
     {
         $this->assertSame('28', $this->calculator->add('1,2,3,4,5,6,7'));
     }
+
+    #[Test]
+    public function it_returns_the_sum_for_numbers_separated_by_line_breaks(): void
+    {
+        $this->assertSame('6', $this->calculator->add("1\n2,3"));
+    }
 }
