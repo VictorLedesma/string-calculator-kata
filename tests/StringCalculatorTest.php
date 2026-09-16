@@ -34,4 +34,10 @@ final class StringCalculatorTest extends TestCase
     {
         $this->assertSame('3', $this->calculator->add('1,2'));
     }
+
+    #[Test]
+    public function it_returns_the_sum_of_an_arbitrary_amount_of_numbers(): void
+    {
+        $this->assertSame('28', $this->calculator->add('1,2,3,4,5,6,7'));
+    }
 }
