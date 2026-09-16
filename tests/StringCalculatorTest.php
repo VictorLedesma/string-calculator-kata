@@ -28,4 +28,10 @@ final class StringCalculatorTest extends TestCase
     {
         $this->assertSame('1', $this->calculator->add('1'));
     }
+
+    #[Test]
+    public function it_returns_the_sum_of_two_numbers(): void
+    {
+        $this->assertSame('3', $this->calculator->add('1,2'));
+    }
 }
