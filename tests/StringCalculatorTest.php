@@ -112,4 +112,16 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_allows_pipe_as_a_custom_separator(): void
+    {
+        $numbers = "//|\n1|2|3";
+        $expected = "6";
+
+        $result = $this->calculator->add($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
