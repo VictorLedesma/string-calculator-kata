@@ -195,4 +195,15 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_multiplies_an_arbitrary_amount_of_numbers(): void
+    {
+        $numbers = "2,3,4";
+        $expected = "24";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
