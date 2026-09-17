@@ -18,7 +18,7 @@ final class StringCalculator
             return $error;
         }
 
-        $numbers = str_replace("\n", ',', $numbers);
+        $numbers = $this->normalizeSeparators($numbers);
 
         $parts = explode(',', $numbers);
 
@@ -48,6 +48,11 @@ final class StringCalculator
     private function isEmpty(string $number): bool
     {
         return $number === '';
+    }
+
+    private function normalizeSeparators(string $number): string
+    {
+        return str_replace("\n", ',', $number);
     }
 
 }
