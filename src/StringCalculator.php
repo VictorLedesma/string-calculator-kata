@@ -22,16 +22,10 @@ final class StringCalculator
 
         $parts = explode(',', $numbers);
 
-        $negatives = [];
+        $error = $this->validateNegativeNumbers($parts);
 
-        foreach ($parts as $part) {
-            if ((float) $part < 0) {
-                $negatives[] = $part;
-            }
-        }
-
-        if (!empty($negatives)) {
-            return "Error: Negative numbers are not allowed: " . implode(', ', $negatives);
+        if ($error !== null) {
+            return $error;
         }
 
         return $this->calculateSum($parts);
@@ -88,6 +82,24 @@ final class StringCalculator
 
         return (string) array_sum(array_map('floatval', $parts));
     }
+
+    private function validateNegativeNumbers(array $parts): ?string
+    {
+        $negatives = [];
+
+        foreach ($parts as $part) {
+            if ((float) $part < 0) {
+                $negatives[] = $part;
+            }
+        }
+
+        if (!empty($negatives)) {
+            return "Error: Negative numbers are not allowed: " . implode(', ', $negatives);
+        }
+
+        return null;
+    }
+
 
 }
 
