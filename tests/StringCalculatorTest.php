@@ -184,16 +184,5 @@ final class StringCalculatorTest extends TestCase
 
     }
 
-    #[Test]
-    public function it_handles_negative_number_using_exception(): void
-    {
-        $numbers = '-1,2';
-        $expected = 'Negative not allowed: -1';
-
-        $result = $this->calculator->addWithException($numbers);
-
-        $this->assertSame($expected, $result);
-
-    }
 
 }

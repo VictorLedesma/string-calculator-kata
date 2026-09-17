@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator;
 
+use InvalidArgumentException;
+
 final class StringCalculator
 {
     public function add(string $numbers): string
@@ -151,7 +153,6 @@ final class StringCalculator
         return implode("\n", $errors);
 
     }
-
 
 }
 
