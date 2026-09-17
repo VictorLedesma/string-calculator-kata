@@ -49,16 +49,22 @@ final class StringCalculator
     private function normalizeSeparators(string $number): string
     {
         if (str_starts_with($number, "//")) {
-
-            $separatorEnd = strpos($number, "\n");
-            $separator = substr($number, 2, $separatorEnd - 2);
-
-            $number = substr($number, $separatorEnd + 1);
+            [$separator, $number] = $this->extractCustomSeparator($number);
 
             return str_replace($separator, ',', $number);
         }
 
         return str_replace("\n", ',', $number);
+    }
+
+    private function extractCustomSeparator(string $number): array
+    {
+        $separatorEnd = strpos($number, "\n");
+
+        $separator = substr($number, 2, $separatorEnd - 2);
+        $number = substr($number, $separatorEnd + 1);
+
+        return [$separator, $number];
     }
 
     private function calculateSum(array $parts): string
