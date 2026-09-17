@@ -12,7 +12,28 @@ final class StringCalculator
             return '0';
         }
 
-        $errors = [];
+        if (strpos($numbers, ',,') !== false) {
+            $errors = [];
+            $parts = explode(',', $numbers);
+            $position = 0;
+
+            foreach ($parts as $part) {
+
+                if ((float) $part < 0) {
+                    $errors[] = 'Negative not allowed: ' . $part;
+                }
+
+                if ($part === '') {
+                    $errors[] = "Number expected but ',' found at position " . $position;
+                }
+
+                $position += strlen($part) + 1;
+
+            }
+
+            return implode("\n", $errors);
+
+        }
 
         $separatorError = $this->validateSeparators($numbers);
 
@@ -25,8 +46,6 @@ final class StringCalculator
         if ($negativeError !== null) {
             $errors[] = $negativeError;
         }
-
-
 
         if ($separatorError !== null) {
             $errors[] = $separatorError;
