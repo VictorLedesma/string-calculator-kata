@@ -20,7 +20,7 @@ final class StringCalculator
 
         $numbers = $this->normalizeSeparators($numbers);
 
-        $parts = explode(',', $numbers);
+        $parts = $this-> splitNumbers($numbers);
 
         $error = $this->validateNegativeNumbers($parts);
 
@@ -100,6 +100,10 @@ final class StringCalculator
         return null;
     }
 
+    private function splitNumbers(string $numbers): array
+    {
+        return explode(',', $numbers);
+    }
 
 }
 
