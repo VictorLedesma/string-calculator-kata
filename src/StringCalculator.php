@@ -49,8 +49,11 @@ final class StringCalculator
     private function normalizeSeparators(string $number): string
     {
         if (str_starts_with($number, "//")) {
-            $separator = substr($number, 2, 1);
-            $number = substr($number, 4);
+
+            $separatorEnd = strpos($number, "\n");
+            $separator = substr($number, 2, $separatorEnd - 2);
+
+            $number = substr($number, $separatorEnd + 1);
 
             return str_replace($separator, ',', $number);
         }
