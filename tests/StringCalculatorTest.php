@@ -124,4 +124,16 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_allows_multi_character_custom_separators(): void
+    {
+        $numbers = "//sep\nsep2sep3";
+        $expected = "5";
+
+        $result = $this->calculator->add($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
