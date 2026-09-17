@@ -148,4 +148,16 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_cant_work_with_multiple_negative_numbers(): void
+    {
+        $numbers = "2,-4,-5";
+        $expected = "Error: Negative numbers are not allowed: -4, -5";
+
+        $result = $this->calculator->add($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
