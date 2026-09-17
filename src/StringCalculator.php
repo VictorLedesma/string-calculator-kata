@@ -8,7 +8,7 @@ final class StringCalculator
 {
     public function add(string $numbers): string
     {
-        if ($numbers === "") {
+        if ($this->isEmpty($numbers)) {
             return '0';
         }
 
@@ -43,6 +43,11 @@ final class StringCalculator
 
         return null;
 
+    }
+
+    private function isEmpty(string $number): bool
+    {
+        return $number === '';
     }
 
 }
