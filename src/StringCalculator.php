@@ -22,11 +22,18 @@ final class StringCalculator
 
         $parts = explode(',', $numbers);
 
+        $negatives = [];
+
         foreach ($parts as $part) {
             if ((float) $part < 0) {
-                return "Error: Negative numbers are not allowed: " . $part;
+                $negatives[] = $part;
             }
         }
+
+        if (!empty($negatives)) {
+            return "Error: Negative numbers are not allowed: " . implode(', ', $negatives);
+        }
+
         return $this->calculateSum($parts);
 
     }
