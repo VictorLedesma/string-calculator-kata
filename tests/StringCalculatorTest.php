@@ -206,4 +206,15 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_return_zero_for_an_empty_string_when_multiplying(): void
+    {
+        $numbers = '';
+        $expected = '0';
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+    }
+
 }

@@ -39,6 +39,12 @@ final class StringCalculator
 
     public function multiply(string $numbers): string
     {
+
+        if ($this->isEmpty($numbers)) {
+            return '0';
+
+        }
+
         $parts = explode(",", $numbers);
 
         return (string) array_product(array_map('floatval', $parts));
