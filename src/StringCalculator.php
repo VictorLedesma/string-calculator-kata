@@ -22,11 +22,7 @@ final class StringCalculator
 
         $parts = explode(',', $numbers);
 
-        if (count($parts) === 1) {
-            return $numbers;
-        }
-
-        return (string) array_sum(array_map('floatval', $parts));
+        return $this->calculateSum($parts);
 
     }
 
@@ -53,6 +49,15 @@ final class StringCalculator
     private function normalizeSeparators(string $number): string
     {
         return str_replace("\n", ',', $number);
+    }
+
+    private function calculateSum(array $parts): string
+    {
+        if (count($parts) === 1) {
+            return $parts[0];
+        }
+
+        return (string) array_sum(array_map('floatval', $parts));
     }
 
 }
