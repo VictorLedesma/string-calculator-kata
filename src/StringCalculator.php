@@ -14,22 +14,22 @@ final class StringCalculator
 
         $errors = [];
 
-        $invalidPosition = $this->validateSeparators($numbers);
-
-        if ($invalidPosition !== null) {
-            $errors[] = $invalidPosition;
-        }
+        $separatorError = $this->validateSeparators($numbers);
 
         $numbers = $this->normalizeSeparators($numbers);
 
         $parts = $this->splitNumbers($numbers);
 
-
-
         $negativeError = $this->validateNegativeNumbers($parts);
 
         if ($negativeError !== null) {
             $errors[] = $negativeError;
+        }
+
+
+
+        if ($separatorError !== null) {
+            $errors[] = $separatorError;
         }
 
         if (!empty($errors)) {
@@ -42,7 +42,14 @@ final class StringCalculator
 
     public function validateSeparators(string $number): ?string
     {
+        $invalidPosition = strpos($number, ",,");
+
+        if ($invalidPosition !== false) {
+            return "Number expected but ',' found at position " . ($invalidPosition + 1);
+        }
+
         $invalidPosition = strpos($number, ",\n");
+
         if ($invalidPosition !== false) {
             return 'Error: Invalid input';
         }
@@ -102,7 +109,7 @@ final class StringCalculator
         }
 
         if (!empty($negatives)) {
-            return "Negative not allowed : " . implode(', ', $negatives);
+            return "Negative not allowed: " . implode(', ', $negatives);
         }
 
         return null;
