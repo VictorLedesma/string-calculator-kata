@@ -11,11 +11,13 @@ final class StringCalculator
         if ($numbers === "") {
             return '0';
         }
-        $invalidPosition = strpos($numbers, ",\n");
 
-        if ($invalidPosition !== false) {
-            return 'Error: Invalid input';
+        $error = $this->validateSeparators($numbers);
+
+        if ($error !== null) {
+            return $error;
         }
+
         $numbers = str_replace("\n", ',', $numbers);
 
         $parts = explode(',', $numbers);
@@ -27,6 +29,19 @@ final class StringCalculator
         return (string) array_sum(array_map('floatval', $parts));
 
     }
+
+    public function validateSeparators(string $number): ?string
+    {
+        $invalidPosition = strpos($number, ",\n");
+        if ($invalidPosition !== false) {
+            return 'Error: Invalid input';
+        }
+
+        return null;
+
+    }
+
+
 
 }
 
