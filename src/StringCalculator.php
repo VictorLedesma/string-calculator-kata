@@ -10,61 +10,50 @@ final class StringCalculator
 {
     public function add(string $numbers): string
     {
+        try {
+            return (string) $this->addInternal($numbers);
+
+        } catch (InvalidArgumentException $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    private function addInternal(string $numbers): float
+    {
         if ($this->isEmpty($numbers)) {
-            return '0';
+            return 0.0;
+
         }
 
-        $multipleErrors = $this->validateMultipleErrorsInOrder($numbers);
-
-        if ($multipleErrors !== null) {
-            return $multipleErrors;
-        }
-
-        $separatorError = $this->validateSeparators($numbers);
+        $this->validateMultipleErrorsInOrder($numbers);
+        $this->validateSeparators($numbers);
 
         $numbers = $this->normalizeSeparators($numbers);
-
         $parts = $this->splitNumbers($numbers);
 
-        $negativeError = $this->validateNegativeNumbers($parts);
-
-        $errors = [];
-
-        if ($negativeError !== null) {
-            $errors[] = $negativeError;
-        }
-
-        if ($separatorError !== null) {
-            $errors[] = $separatorError;
-        }
-
-        if (!empty($errors)) {
-            return implode("\n", $errors);
-        }
+        $this->validateNegativeNumbers($parts);
 
         return $this->calculateSum($parts);
 
     }
 
-    public function validateSeparators(string $number): ?string
+    public function validateSeparators(string $number): void
     {
         $invalidPosition = strpos($number, ",,");
 
         if ($invalidPosition !== false) {
-            return "Number expected but ',' found at position " . ($invalidPosition + 1);
+            throw new InvalidArgumentException("Number expected but ',' found at position" . ($invalidPosition + 1));
         }
 
         $invalidPosition = strpos($number, ",\n");
 
         if ($invalidPosition !== false) {
-            return 'Error: Invalid input';
+            throw new InvalidArgumentException('Error: Invalid input');
         }
 
         if (str_ends_with($number, ',')) {
-            return 'Error: Invalid input';
+            throw new InvalidArgumentException('Error: Invalid input');
         }
-
-        return null;
 
     }
 
@@ -95,16 +84,13 @@ final class StringCalculator
         return [$separator, $number];
     }
 
-    private function calculateSum(array $parts): string
+    private function calculateSum(array $parts): float
     {
-        if (count($parts) === 1) {
-            return $parts[0];
-        }
+        return (float) array_sum(array_map('floatval', $parts));
 
-        return (string) array_sum(array_map('floatval', $parts));
     }
 
-    private function validateNegativeNumbers(array $parts): ?string
+    private function validateNegativeNumbers(array $parts): void
     {
         $negatives = [];
 
@@ -115,10 +101,9 @@ final class StringCalculator
         }
 
         if (!empty($negatives)) {
-            return "Negative not allowed: " . implode(', ', $negatives);
+            throw new InvalidArgumentException("Negative not allowed: " . implode(', ', $negatives));
         }
 
-        return null;
     }
 
     private function splitNumbers(string $numbers): array
@@ -126,10 +111,10 @@ final class StringCalculator
         return explode(',', $numbers);
     }
 
-    private function validateMultipleErrorsInOrder(string $numbers): ?string
+    private function validateMultipleErrorsInOrder(string $numbers): void
     {
         if (strpos($numbers, ',,') === false) {
-            return null;
+            return;
         }
 
         $errors = [];
@@ -150,7 +135,7 @@ final class StringCalculator
 
         }
 
-        return implode("\n", $errors);
+        throw new InvalidArgumentException(implode("\n", $errors));
 
     }
 
