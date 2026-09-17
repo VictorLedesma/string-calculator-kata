@@ -37,11 +37,13 @@ final class StringCalculator
             return 'Error: Invalid input';
         }
 
+        if (str_ends_with($number, ',')) {
+            return 'Error: Invalid input';
+        }
+
         return null;
 
     }
-
-
 
 }
 

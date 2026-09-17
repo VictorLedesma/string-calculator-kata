@@ -58,4 +58,5 @@ final class StringCalculatorTest extends TestCase
     {
         $this->assertSame('Error: Invalid input', $this->calculator->add("1,2,"));
     }
+
 }
