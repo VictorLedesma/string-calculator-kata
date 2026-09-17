@@ -12,27 +12,10 @@ final class StringCalculator
             return '0';
         }
 
-        if (strpos($numbers, ',,') !== false) {
-            $errors = [];
-            $parts = explode(',', $numbers);
-            $position = 0;
+        $multipleErrors = $this->validateMultipleErrorsInOrder($numbers);
 
-            foreach ($parts as $part) {
-
-                if ((float) $part < 0) {
-                    $errors[] = 'Negative not allowed: ' . $part;
-                }
-
-                if ($part === '') {
-                    $errors[] = "Number expected but ',' found at position " . $position;
-                }
-
-                $position += strlen($part) + 1;
-
-            }
-
-            return implode("\n", $errors);
-
+        if ($multipleErrors !== null) {
+            return $multipleErrors;
         }
 
         $separatorError = $this->validateSeparators($numbers);
@@ -42,6 +25,8 @@ final class StringCalculator
         $parts = $this->splitNumbers($numbers);
 
         $negativeError = $this->validateNegativeNumbers($parts);
+
+        $errors = [];
 
         if ($negativeError !== null) {
             $errors[] = $negativeError;
@@ -138,6 +123,35 @@ final class StringCalculator
     {
         return explode(',', $numbers);
     }
+
+    private function validateMultipleErrorsInOrder(string $numbers): ?string
+    {
+        if (strpos($numbers, ',,') === false) {
+            return null;
+        }
+
+        $errors = [];
+        $parts = explode(',', $numbers);
+        $position = 0;
+
+        foreach ($parts as $part) {
+            if ((float) $part < 0) {
+                $errors[] = 'Negative not allowed: ' . $part;
+            }
+
+            if ($part === '') {
+                $errors[] = "Number expected but ',' found at position " . $position;
+
+            }
+
+            $position += strlen($part) + 1;
+
+        }
+
+        return implode("\n", $errors);
+
+    }
+
 
 }
 
