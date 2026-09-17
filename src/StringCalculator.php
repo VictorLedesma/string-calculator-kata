@@ -37,6 +37,13 @@ final class StringCalculator
 
     }
 
+    public function multiply(string $numbers): string
+    {
+        $parts = explode(",", $numbers);
+
+        return (string) ((float) $parts[0] * (float) $parts[1]);
+    }
+
     public function validateSeparators(string $number): void
     {
         $invalidPosition = strpos($number, ",,");
