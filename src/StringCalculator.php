@@ -41,7 +41,7 @@ final class StringCalculator
     {
         $parts = explode(",", $numbers);
 
-        return (string) ((float) $parts[0] * (float) $parts[1]);
+        return (string) array_product(array_map('floatval', $parts));
     }
 
     public function validateSeparators(string $number): void
