@@ -184,5 +184,15 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_multiplies_two_numbers(): void
+    {
+        $numbers = "2,3";
+        $expected = "6";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+    }
 
 }
