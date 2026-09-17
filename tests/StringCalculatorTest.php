@@ -59,4 +59,12 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame('Error: Invalid input', $this->calculator->add("1,2,"));
     }
 
+    #[Test]
+    public function it_allows_custom_separators(): void
+    {
+        $calculator = new StringCalculator();
+
+        $this->assertSame("3", $calculator->add("//;\n1;2"));
+    }
+
 }
