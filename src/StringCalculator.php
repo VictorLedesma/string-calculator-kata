@@ -12,20 +12,28 @@ final class StringCalculator
             return '0';
         }
 
-        $error = $this->validateSeparators($numbers);
+        $errors = [];
 
-        if ($error !== null) {
-            return $error;
+        $invalidPosition = $this->validateSeparators($numbers);
+
+        if ($invalidPosition !== null) {
+            $errors[] = $invalidPosition;
         }
 
         $numbers = $this->normalizeSeparators($numbers);
 
-        $parts = $this-> splitNumbers($numbers);
+        $parts = $this->splitNumbers($numbers);
 
-        $error = $this->validateNegativeNumbers($parts);
 
-        if ($error !== null) {
-            return $error;
+
+        $negativeError = $this->validateNegativeNumbers($parts);
+
+        if ($negativeError !== null) {
+            $errors[] = $negativeError;
+        }
+
+        if (!empty($errors)) {
+            return implode("\n", $errors);
         }
 
         return $this->calculateSum($parts);
@@ -94,7 +102,7 @@ final class StringCalculator
         }
 
         if (!empty($negatives)) {
-            return "Error: Negative numbers are not allowed: " . implode(', ', $negatives);
+            return "Negative not allowed : " . implode(', ', $negatives);
         }
 
         return null;
