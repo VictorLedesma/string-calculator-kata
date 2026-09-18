@@ -229,4 +229,16 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_returns_error_when_line_break_follows_a_comma_multiply_case(): void
+    {
+        $numbers = "1,\n";
+        $expected = "Error: Invalid input";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
