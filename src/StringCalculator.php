@@ -40,9 +40,9 @@ final class StringCalculator
 
         }
 
-        $parts = explode(",", $numbers);
+        $parts = $this->splitNumbers($numbers);
 
-        return (string) array_product(array_map('floatval', $parts));
+        return $this->calculateProduct($parts);
     }
 
     public function validateSeparators(string $number): void
@@ -146,6 +146,12 @@ final class StringCalculator
         throw new InvalidArgumentException(implode("\n", $errors));
 
     }
+
+    private function calculateProduct(array $parts): string
+    {
+        return (string) array_product(array_map('floatval', $parts));
+    }
+
 
 }
 
