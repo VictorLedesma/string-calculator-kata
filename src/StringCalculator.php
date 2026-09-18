@@ -34,15 +34,18 @@ final class StringCalculator
 
     public function multiply(string $numbers): string
     {
+        try {
+            if ($this->isEmpty($numbers)) {
+                return '0';
+            }
 
-        if ($this->isEmpty($numbers)) {
-            return '0';
+            $parts = $this->splitNumbers($numbers);
 
+            return $this->calculateProduct($parts);
+
+        } catch (InvalidArgumentException $exception) {
+            return $exception->getMessage();
         }
-
-        $parts = $this->splitNumbers($numbers);
-
-        return $this->calculateProduct($parts);
     }
 
     public function validateSeparators(string $number): void

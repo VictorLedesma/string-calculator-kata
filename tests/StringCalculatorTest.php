@@ -217,4 +217,16 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_returns_the_product_for_numbers_separated_by_line_breaks(): void
+    {
+        $numbers = "1\n2,3";
+        $expected = "6";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
