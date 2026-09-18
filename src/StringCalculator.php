@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace MRC\StringCalculator;
 
 use InvalidArgumentException;
-use function PHPUnit\Framework\throwException;
 
 final class StringCalculator
 {
+
+    private ExpressionEvaluator $evaluator;
+    public function __construct()
+    {
+        $this->evaluator = new ExpressionEvaluator();
+    }
+
     public function add(string $numbers): string
     {
         return $this->calculate($numbers, fn(array $numbers) => array_sum($numbers));
@@ -24,9 +30,9 @@ final class StringCalculator
         return $this->calculate($numbers, fn(array $numbers) => $this->divideNumbers($numbers));
     }
 
-    public function evaluate(string $expresion): string
+    public function evaluate(string $expression): string
     {
-        return (string) eval ("return $expresion;");
+        return $this->evaluator->evaluate($expression);
     }
 
     private function calculate(string $numbers, callable $operation): string

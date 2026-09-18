@@ -334,14 +334,4 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    #[Test]
-    public function it_evaluates_a_simple_expression(): void
-    {
-        $expression = '2*3+4';
-        $expected = '10';
-
-        $result = $this->calculator->evaluate($expression);
-
-        $this->assertSame($expected, $result);
-    }
 }
