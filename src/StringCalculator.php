@@ -45,6 +45,8 @@ final class StringCalculator
 
             $parts = $this->splitNumbers($numbers);
 
+            $this->validateNegativeNumbers($parts);
+
             return $this->calculateProduct($parts);
 
         } catch (InvalidArgumentException $exception) {
