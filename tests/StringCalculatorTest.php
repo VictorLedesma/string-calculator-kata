@@ -322,4 +322,15 @@ final class StringCalculatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_does_not_allow_division_by_zero(): void
+    {
+        $numbers = '10,0';
+        $expected = 'Division by zero not allowed';
+
+        $result = $this->calculator->divide($numbers);
+
+        $this->assertSame($expected, $result);
+    }
 }
