@@ -49,4 +49,15 @@ final class ExpressionEvaluatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_respect_operator_precedence(): void
+    {
+        $expression = '2+3*4';
+        $expected = '14';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 }
