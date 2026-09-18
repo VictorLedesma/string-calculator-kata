@@ -21,7 +21,14 @@ final class StringCalculator
     public function divide(string $numbers): string
     {
         $parts = explode(',', $numbers);
-        return (string) ((float) $parts[0] / (float) $parts[1]);
+
+        $result = (float) $parts[0];
+
+        foreach (array_slice($parts, 1) as $part) {
+            $result /= (float) $part;
+        }
+
+        return (string) $result;
     }
 
     private function calculate(string $numbers, callable $operation): string
