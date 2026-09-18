@@ -312,4 +312,14 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_divides_an_arbitry_amount_of_numbers(): void
+    {
+        $numbers = '100,2,5';
+        $expected = '10';
+
+        $result = $this->calculator->divide($numbers);
+
+        $this->assertSame($expected, $result);
+    }
 }
