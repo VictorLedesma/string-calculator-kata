@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MRC\StringCalculator;
 
 use InvalidArgumentException;
+use function PHPUnit\Framework\throwException;
 
 final class StringCalculator
 {
@@ -149,11 +150,15 @@ final class StringCalculator
         $result = $numbers[0];
 
         foreach (array_slice($numbers, 1) as $number) {
+
+            if ($number === 0.0) {
+                throw new InvalidArgumentException('Division by zero not allowed');
+            }
+
             $result /= $number;
         }
 
         return $result;
     }
-
 }
 
