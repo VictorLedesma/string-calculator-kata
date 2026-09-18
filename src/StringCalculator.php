@@ -24,6 +24,11 @@ final class StringCalculator
         return $this->calculate($numbers, fn(array $numbers) => $this->divideNumbers($numbers));
     }
 
+    public function evaluate(string $expresion): string
+    {
+        return (string) eval ("return $expresion;");
+    }
+
     private function calculate(string $numbers, callable $operation): string
     {
         try {
