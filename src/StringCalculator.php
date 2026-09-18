@@ -18,6 +18,12 @@ final class StringCalculator
         return $this->calculate($numbers, fn(array $numbers) => array_product($numbers));
     }
 
+    public function divide(string $numbers): string
+    {
+        $parts = explode(',', $numbers);
+        return (string) ((float) $parts[0] / (float) $parts[1]);
+    }
+
     private function calculate(string $numbers, callable $operation): string
     {
         try {

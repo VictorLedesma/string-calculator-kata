@@ -307,7 +307,7 @@ final class StringCalculatorTest extends TestCase
         $numbers = "4,2";
         $expected = "2";
 
-        $result = $this->calculator->multiply($numbers);
+        $result = $this->calculator->divide($numbers);
 
         $this->assertSame($expected, $result);
     }
