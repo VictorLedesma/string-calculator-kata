@@ -241,4 +241,52 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_can_not_finish_with_a_separator_multiply_case(): void
+    {
+        $numbers = "1,2,";
+        $expected = "Error: Invalid input";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
+    #[Test]
+    public function it_allows_custom_separators_multiply_case(): void
+    {
+        $numbers = "//;\n2;2";
+        $expected = "4";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
+    #[Test]
+    public function it_allows_multi_character_custom_separators_multiply_case(): void
+    {
+        $numbers = "//sep\n1sep2sep3";
+        $expected = "6";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
+    #[Test]
+    public function it_cant_work_with_multiple_negative_numbers_mutiply_case(): void
+    {
+        $numbers = "2,-4,-5";
+        $expected = "Negative not allowed: -4, -5";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
