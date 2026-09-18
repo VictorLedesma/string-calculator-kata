@@ -26,7 +26,6 @@ final class StringCalculator
 
             return $this->calculateSum($parts);
 
-
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
         }
@@ -38,6 +37,8 @@ final class StringCalculator
             if ($this->isEmpty($numbers)) {
                 return '0';
             }
+
+            $this->validateMultipleErrorsInOrder($numbers);
 
             $this->validateSeparators($numbers);
 
