@@ -8,7 +8,7 @@ use InvalidArgumentException;
 
 final class StringCalculator
 {
-    public function add(string $numbers): string|int|float
+    public function add(string $numbers): string
     {
         try {
             if ($this->isEmpty($numbers)) {
