@@ -8,6 +8,15 @@ use InvalidArgumentException;
 
 final class ExpressionEvaluator
 {
+    private const OPERATORS = [
+        '+',
+        '-',
+        '*',
+        '/',
+        '(',
+        ')',
+    ];
+
     public function evaluate(string $expression): string
     {
         try {
@@ -16,7 +25,7 @@ final class ExpressionEvaluator
                 throw new InvalidArgumentException('Division by zero not allowed');
             }
 
-            $expression = $this->splitExpression($expression);
+            $parts = $this->splitExpression($expression);
 
             return (string) eval ("return $expression;");
 
@@ -25,8 +34,34 @@ final class ExpressionEvaluator
         }
     }
 
-    private function splitExpression(string $expression): string
+    private function splitExpression(string $expression): array
     {
-        return $expression;
+        $parts = [];
+        $number = '';
+
+        foreach (str_split($expression) as $character) {
+
+            if ($this->isOperator($character)) {
+
+                if ($number !== '') {
+                    $parts[] = $number;
+                    $number = '';
+                }
+
+                $parts[] = $character;
+                continue;
+            }
+            $number .= $character;
+        }
+
+        if ($number !== '') {
+            $parts[] = $number;
+        }
+        return $parts;
+    }
+
+    private function isOperator(string $character): bool
+    {
+        return in_array($character, self::OPERATORS, true);
     }
 }
