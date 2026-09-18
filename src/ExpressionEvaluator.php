@@ -16,10 +16,17 @@ final class ExpressionEvaluator
                 throw new InvalidArgumentException('Division by zero not allowed');
             }
 
+            $expression = $this->splitExpression($expression);
+
             return (string) eval ("return $expression;");
 
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
         }
+    }
+
+    private function splitExpression(string $expression): string
+    {
+        return $expression;
     }
 }

@@ -38,4 +38,15 @@ final class ExpressionEvaluatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_evaluates_addition_expression(): void
+    {
+        $expression = '2+3';
+        $expected = '5';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 }
