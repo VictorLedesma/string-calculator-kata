@@ -289,4 +289,16 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_returns_multiple_errors_in_order_mutiply_case(): void
+    {
+        $numbers = "-1,,-2";
+        $expected = "Negative not allowed: -1\nNumber expected but ',' found at position 3\nNegative not allowed: -2";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+
+    }
+
 }
