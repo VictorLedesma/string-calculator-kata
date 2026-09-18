@@ -20,15 +20,7 @@ final class StringCalculator
 
     public function divide(string $numbers): string
     {
-        $parts = explode(',', $numbers);
-
-        $result = (float) $parts[0];
-
-        foreach (array_slice($parts, 1) as $part) {
-            $result /= (float) $part;
-        }
-
-        return (string) $result;
+        return $this->calculate($numbers, fn(array $numbers) => $this->divideNumbers($numbers));
     }
 
     private function calculate(string $numbers, callable $operation): string
@@ -103,12 +95,6 @@ final class StringCalculator
         return [$separator, $number];
     }
 
-    private function calculateSum(array $parts): string
-    {
-        return (string) array_sum(array_map('floatval', $parts));
-
-    }
-
     private function validateNegativeNumbers(array $parts): void
     {
         $negatives = [];
@@ -158,11 +144,16 @@ final class StringCalculator
 
     }
 
-    private function calculateProduct(array $parts): string
+    private function divideNumbers(array $numbers): float
     {
-        return (string) array_product(array_map('floatval', $parts));
-    }
+        $result = $numbers[0];
 
+        foreach (array_slice($numbers, 1) as $number) {
+            $result /= $number;
+        }
+
+        return $result;
+    }
 
 }
 
