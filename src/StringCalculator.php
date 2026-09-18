@@ -8,33 +8,28 @@ use InvalidArgumentException;
 
 final class StringCalculator
 {
-    public function add(string $numbers): string
+    public function add(string $numbers): string|int|float
     {
         try {
-            return (string) $this->addInternal($numbers);
+            if ($this->isEmpty($numbers)) {
+                return '0';
+
+            }
+
+            $this->validateMultipleErrorsInOrder($numbers);
+            $this->validateSeparators($numbers);
+
+            $numbers = $this->normalizeSeparators($numbers);
+            $parts = $this->splitNumbers($numbers);
+
+            $this->validateNegativeNumbers($parts);
+
+            return $this->calculateSum($parts);
+
 
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
         }
-    }
-
-    private function addInternal(string $numbers): float
-    {
-        if ($this->isEmpty($numbers)) {
-            return 0.0;
-
-        }
-
-        $this->validateMultipleErrorsInOrder($numbers);
-        $this->validateSeparators($numbers);
-
-        $numbers = $this->normalizeSeparators($numbers);
-        $parts = $this->splitNumbers($numbers);
-
-        $this->validateNegativeNumbers($parts);
-
-        return $this->calculateSum($parts);
-
     }
 
     public function multiply(string $numbers): string
@@ -97,9 +92,9 @@ final class StringCalculator
         return [$separator, $number];
     }
 
-    private function calculateSum(array $parts): float
+    private function calculateSum(array $parts): string
     {
-        return (float) array_sum(array_map('floatval', $parts));
+        return (string) array_sum(array_map('floatval', $parts));
 
     }
 
