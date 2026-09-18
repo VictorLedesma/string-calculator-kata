@@ -301,4 +301,15 @@ final class StringCalculatorTest extends TestCase
 
     }
 
+    #[Test]
+    public function it_divides_two_numbers(): void
+    {
+        $numbers = "4,2";
+        $expected = "2";
+
+        $result = $this->calculator->multiply($numbers);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
