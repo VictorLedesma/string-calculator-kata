@@ -10,25 +10,7 @@ final class StringCalculator
 {
     public function add(string $numbers): string
     {
-        try {
-            if ($this->isEmpty($numbers)) {
-                return '0';
-
-            }
-
-            $this->validateMultipleErrorsInOrder($numbers);
-            $this->validateSeparators($numbers);
-
-            $numbers = $this->normalizeSeparators($numbers);
-            $parts = $this->splitNumbers($numbers);
-
-            $this->validateNegativeNumbers($parts);
-
-            return $this->calculateSum($parts);
-
-        } catch (InvalidArgumentException $exception) {
-            return $exception->getMessage();
-        }
+        return $this->calculate($numbers, fn(array $numbers) => array_sum($numbers));
     }
 
     public function multiply(string $numbers): string
@@ -49,6 +31,32 @@ final class StringCalculator
             $this->validateNegativeNumbers($parts);
 
             return $this->calculateProduct($parts);
+
+        } catch (InvalidArgumentException $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    private function calculate(string $numbers, callable $operation): string
+    {
+        try {
+            if ($this->isEmpty($numbers)) {
+                return '0';
+            }
+
+            $this->validateMultipleErrorsInOrder($numbers);
+
+            $this->validateSeparators($numbers);
+
+            $numbers = $this->normalizeSeparators($numbers);
+
+            $parts = $this->splitNumbers($numbers);
+
+            $this->validateNegativeNumbers($parts);
+
+            $values = array_map('floatval', $parts);
+
+            return (string) $operation($values);
 
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
