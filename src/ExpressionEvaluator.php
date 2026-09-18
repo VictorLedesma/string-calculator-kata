@@ -20,18 +20,44 @@ final class ExpressionEvaluator
     public function evaluate(string $expression): string
     {
         try {
-
-            if (str_contains($expression, '/0')) {
-                throw new InvalidArgumentException('Division by zero not allowed');
-            }
-
             $parts = $this->splitExpression($expression);
 
-            return (string) eval ("return $expression;");
+            return (string) $this->calculateExpression($parts);
 
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
         }
+    }
+
+    private function calculateExpression(array $parts): float
+    {
+        $result = (float) $parts[0];
+
+        for ($i = 1; $i < count($parts); $i += 2) {
+
+            $operator = $parts[$i];
+            $number = (float) $parts[$i + 1];
+
+            switch ($operator) {
+
+                case '+':
+                    $result += $number;
+                    break;
+                case '-':
+                    $result -= $number;
+                    break;
+                case '*':
+                    $result *= $number;
+                    break;
+                case '/':
+                    if ($number === 0.0) {
+                        throw new InvalidArgumentException('Division by zero not allowed');
+                    }
+                default:
+                    throw new InvalidArgumentException('Invalid operator');
+            }
+        }
+        return $result;
     }
 
     private function splitExpression(string $expression): array
