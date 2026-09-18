@@ -39,6 +39,8 @@ final class StringCalculator
                 return '0';
             }
 
+            $numbers = $this->normalizeSeparators($numbers);
+
             $parts = $this->splitNumbers($numbers);
 
             return $this->calculateProduct($parts);
