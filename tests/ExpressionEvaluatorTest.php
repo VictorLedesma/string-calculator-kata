@@ -105,4 +105,15 @@ final class ExpressionEvaluatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_returns_error_for_invalid_operator(): void
+    {
+        $expression = '2&3';
+        $expected = 'Invalid operator';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
