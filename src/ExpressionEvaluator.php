@@ -93,6 +93,7 @@ final class ExpressionEvaluator
         $i = 0;
 
         while ($i < count($parts)) {
+
             if (isset($parts[$i + 1], $parts[$i + 2]) && (($parts[$i + 1] === '*' || $parts[$i + 1] === '/'))) {
                 $left = (float) $parts[$i];
                 $operator = $parts[$i + 1];

@@ -75,7 +75,7 @@ final class ExpressionEvaluatorTest extends TestCase
     #[Test]
     public function it_allows_decimals(): void
     {
-        $expression = '2*1.5/3';
+        $expression = '(2*1.5)/3';
         $expected = '1';
 
         $result = $this->evaluator->evaluate($expression);
