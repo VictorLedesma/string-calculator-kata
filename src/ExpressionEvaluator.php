@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace MRC\StringCalculator;
 
 use InvalidArgumentException;
+use MRC\StringCalculator\Rules\InvalidCharacterRule;
 
 final class ExpressionEvaluator
 {
+
+    private array $rules;
+
+    public function __construct()
+    {
+        $this->rules = [new InvalidCharacterRule(),];
+    }
+
     private const OPERATORS = [
         '+',
         '-',
@@ -20,10 +29,18 @@ final class ExpressionEvaluator
     public function evaluate(string $expression): string
     {
         try {
+            $errors = [];
+            foreach ($this->rules as $rule) {
+                $errors = array_merge($errors, $rule->validate($expression));
+            }
+
+            if ($errors !== []) {
+                throw new InvalidArgumentException(implode('\n', $errors));
+            }
+
             $parts = $this->splitExpression($expression);
 
             $this->validateDivisionByZero($parts);
-            $this->validateExpressionCharacter($expression);
 
             return (string) $this->calculateExpression($parts);
 
@@ -157,17 +174,5 @@ final class ExpressionEvaluator
         }
     }
 
-    private function validateExpressionCharacter(string $expression): void
-    {
-        $errors = [];
 
-        foreach (str_split($expression) as $character) {
-            if (!$this->isOperator($character) && !is_numeric($character) && $character !== '.') {
-                $errors[] = 'Invalid operator';
-            }
-        }
-        if ($errors !== []) {
-            throw new InvalidArgumentException(implode("\n", $errors));
-        }
-    }
 }
