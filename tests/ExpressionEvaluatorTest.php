@@ -60,4 +60,15 @@ final class ExpressionEvaluatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_respect_parenthesis_priority(): void
+    {
+        $expression = '(2+2)/4';
+        $expected = '1';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 }
