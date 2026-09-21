@@ -23,6 +23,7 @@ final class ExpressionEvaluator
             $parts = $this->splitExpression($expression);
 
             $this->validateDivisionByZero($parts);
+            $this->validateExpressionCharacter($expression);
 
             return (string) $this->calculateExpression($parts);
 
@@ -58,10 +59,6 @@ final class ExpressionEvaluator
                 $parts[] = $character;
                 continue;
             }
-            if (!is_numeric($character) && $character !== '.') {
-                throw new InvalidArgumentException('Invalid operator');
-            }
-
             $number .= $character;
         }
 
@@ -109,9 +106,6 @@ final class ExpressionEvaluator
                     $value = $left * $right;
 
                 } else {
-                    if ($right === 0.0) {
-                        throw new InvalidArgumentException('Division by zero not allowed');
-                    }
                     $value = $left / $right;
                 }
                 $result[] = (string) $value;
@@ -158,6 +152,20 @@ final class ExpressionEvaluator
             }
         }
 
+        if ($errors !== []) {
+            throw new InvalidArgumentException(implode("\n", $errors));
+        }
+    }
+
+    private function validateExpressionCharacter(string $expression): void
+    {
+        $errors = [];
+
+        foreach (str_split($expression) as $character) {
+            if (!$this->isOperator($character) && !is_numeric($character) && $character !== '.') {
+                $errors[] = 'Invalid operator';
+            }
+        }
         if ($errors !== []) {
             throw new InvalidArgumentException(implode("\n", $errors));
         }
