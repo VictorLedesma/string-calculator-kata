@@ -21,7 +21,7 @@ final class DivisionByZeroRuleTest extends TestCase
     public function it_returns_error_when_dividing_by_zero_rule(): void
     {
         $input = '10/(2-2)';
-        $expected = 'Division by zero not allowed';
+        $expected = ['Division by zero not allowed'];
 
         $result = $this->rule->validate($input);
 
