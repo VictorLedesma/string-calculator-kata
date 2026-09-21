@@ -137,7 +137,6 @@ final class ExpressionEvaluator
                 continue;
             }
 
-            throw new InvalidArgumentException('Invalid operator');
         }
         return $result;
     }
