@@ -28,5 +28,19 @@ final class NegativesRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_cant_allows_an_arbitrary_amount_of_negatives(): void
+    {
+        $input = '-1,-2';
+        $expected = [
+            'Negatives not allowed',
+            'Negatives not allowed'
+        ];
+
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
 
