@@ -22,6 +22,8 @@ final class ExpressionEvaluator
         try {
             $parts = $this->splitExpression($expression);
 
+            $this->validateDivisionByZero($parts);
+
             return (string) $this->calculateExpression($parts);
 
         } catch (InvalidArgumentException $exception) {
@@ -142,4 +144,18 @@ final class ExpressionEvaluator
         return $result;
     }
 
+    private function validateDivisionByZero(array $parts): void
+    {
+        $errors = [];
+
+        for ($i = 0; $i < count($parts) - 1; $i++) {
+            if ($parts[$i] === '/' && (float) $parts[$i + 1] === 0.0) {
+                $errors[] = 'Division by zero not allowed';
+            }
+        }
+
+        if ($errors !== []) {
+            throw new InvalidArgumentException(implode("\n", $errors));
+        }
+    }
 }
