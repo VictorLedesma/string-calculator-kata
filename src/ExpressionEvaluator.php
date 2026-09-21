@@ -14,15 +14,6 @@ final class ExpressionEvaluator
 
     private array $rules;
 
-    public function __construct()
-    {
-        $this->rules = [
-            new InvalidCharacterRule(),
-            new DivisionByZeroRule(),
-        ];
-
-    }
-
     private const OPERATORS = [
         '+',
         '-',
@@ -31,6 +22,15 @@ final class ExpressionEvaluator
         '(',
         ')',
     ];
+
+    public function __construct()
+    {
+        $this->rules = [
+            new InvalidCharacterRule(),
+            new DivisionByZeroRule(),
+        ];
+
+    }
 
     public function evaluate(string $expression): string
     {
