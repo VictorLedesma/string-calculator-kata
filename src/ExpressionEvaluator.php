@@ -58,6 +58,10 @@ final class ExpressionEvaluator
                 $parts[] = $character;
                 continue;
             }
+            if (!is_numeric($character) && $character !== '.') {
+                throw new InvalidArgumentException('Invalid operator');
+            }
+
             $number .= $character;
         }
 
