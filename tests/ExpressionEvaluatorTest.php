@@ -71,4 +71,15 @@ final class ExpressionEvaluatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_allows_decimals(): void
+    {
+        $expression = '2*1.5/2';
+        $expected = '1';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 }
