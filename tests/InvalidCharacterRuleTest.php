@@ -28,4 +28,18 @@ final class InvalidCharacterRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_returns_all_invalid_character_errors(): void
+    {
+        $input = '2&3@4';
+        $expected = [
+            "Invalid operator",
+            "Invalid operator"
+        ];
+
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
 }
