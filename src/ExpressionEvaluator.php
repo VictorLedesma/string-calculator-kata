@@ -91,32 +91,33 @@ final class ExpressionEvaluator
 
     private function calculateMultiplicationAndDivision(array $parts): array
     {
-        $result = [];
+        while (true) {
+            $operatorPosition = null;
 
-        $i = 0;
-
-        while ($i < count($parts)) {
-
-            if (isset($parts[$i + 1], $parts[$i + 2]) && (($parts[$i + 1] === '*' || $parts[$i + 1] === '/'))) {
-                $left = (float) $parts[$i];
-                $operator = $parts[$i + 1];
-                $right = (float) $parts[$i + 2];
-
-                if ($operator === '*') {
-                    $value = $left * $right;
-
-                } else {
-                    $value = $left / $right;
+            foreach ($parts as $position => $part) {
+                if ($part === '*' || $part === '/') {
+                    $operatorPosition = $position;
+                    break;
                 }
-                $result[] = (string) $value;
-                $i += 3;
-                continue;
             }
 
-            $result[] = $parts[$i];
-            $i++;
+            if ($operatorPosition === null) {
+                return $parts;
+            }
+
+            $left = (float) $parts[$operatorPosition - 1];
+            $operator = $parts[$operatorPosition];
+            $right = (float) $parts[$operatorPosition + 1];
+
+            if ($operator === '*') {
+                $result = $left * $right;
+
+            } else {
+                $result = $left / $right;
+            }
+
+            array_splice($parts, $operatorPosition - 1, 3, [(string) $result]);
         }
-        return $result;
     }
 
     private function calculateAdditionAndSubtraction(array $parts): float

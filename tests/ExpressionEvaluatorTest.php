@@ -115,5 +115,15 @@ final class ExpressionEvaluatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+    #[Test]
+    public function it_allows_to_multiply_and_divide_in_same_expresion_without_parentheses(): void
+    {
+        $expression = '2*3/2';
+        $expected = '3';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 
 }
