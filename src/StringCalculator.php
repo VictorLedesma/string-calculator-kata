@@ -43,6 +43,15 @@ final class StringCalculator
     {
         try {
 
+            /*$errors = [];
+            foreach ($this->rules as $rule) {
+                $errors = array_merge($errors, $rule->validate($numbers));
+            }
+
+            if ($errors !== []) {
+                throw new InvalidArgumentException(implode("\n", $errors));
+            }*/
+
             if ($this->isEmpty($numbers)) {
                 return '0';
             }
