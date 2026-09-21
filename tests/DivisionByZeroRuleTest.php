@@ -27,4 +27,19 @@ final class DivisionByZeroRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_return_multiple_errors_rule_case(): void
+    {
+        $input = '(10/0)+(5/0)';
+        $expected = [
+            "Division by zero not allowed",
+            "Division by zero not allowed"
+        ];
+
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
