@@ -82,4 +82,27 @@ final class ExpressionEvaluatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_return_error_when_dividing_by_zero(): void
+    {
+        $expression = '10/(2-2)';
+        $expected = 'Division by zero not allowed';
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function it_return_multiple_errors_expression_case(): void
+    {
+        $expression = '(10/0)+(5/0)';
+        $expected = "Division by zero not allowed\n" . "Division by zero not allowed";
+
+        $result = $this->evaluator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
