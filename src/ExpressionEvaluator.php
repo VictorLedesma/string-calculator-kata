@@ -31,33 +31,10 @@ final class ExpressionEvaluator
 
     private function calculateExpression(array $parts): float
     {
-        $result = (float) $parts[0];
+        $parts = $this->calculateMultiplicationAndDivision($parts);
 
-        for ($i = 1; $i < count($parts); $i += 2) {
+        return $this->calculateAdditionAndSubtraction($parts);
 
-            $operator = $parts[$i];
-            $number = (float) $parts[$i + 1];
-
-            switch ($operator) {
-
-                case '+':
-                    $result += $number;
-                    break;
-                case '-':
-                    $result -= $number;
-                    break;
-                case '*':
-                    $result *= $number;
-                    break;
-                case '/':
-                    if ($number === 0.0) {
-                        throw new InvalidArgumentException('Division by zero not allowed');
-                    }
-                default:
-                    throw new InvalidArgumentException('Invalid operator');
-            }
-        }
-        return $result;
     }
 
     private function splitExpression(string $expression): array
@@ -90,4 +67,60 @@ final class ExpressionEvaluator
     {
         return in_array($character, self::OPERATORS, true);
     }
+
+    private function calculateMultiplicationAndDivision(array $parts): array
+    {
+        $result = [];
+
+        $i = 0;
+
+        while ($i < count($parts)) {
+            if (isset($parts[$i + 1], $parts[$i + 2]) && (($parts[$i + 1] === '*' || $parts[$i + 1] === '/'))) {
+                $left = (float) $parts[$i];
+                $operator = $parts[$i + 1];
+                $right = (float) $parts[$i + 2];
+
+                if ($operator === '*') {
+                    $value = $left * $right;
+
+                } else {
+                    if ($right === 0.0) {
+                        throw new InvalidArgumentException('Division by zero not allowed');
+                    }
+                    $value = $left / $right;
+                }
+                $result[] = (string) $value;
+                $i += 3;
+                continue;
+            }
+
+            $result[] = $parts[$i];
+            $i++;
+        }
+        return $result;
+    }
+
+    private function calculateAdditionAndSubtraction(array $parts): float
+    {
+        $result = (float) $parts[0];
+
+        for ($i = 1; $i < count($parts); $i += 2) {
+            $operator = $parts[$i];
+            $number = (float) $parts[$i + 1];
+
+            if ($operator === '+') {
+                $result += $number;
+                continue;
+            }
+
+            if ($operator === '-') {
+                $result -= $number;
+                continue;
+            }
+
+            throw new InvalidArgumentException('Invalid operator');
+        }
+        return $result;
+    }
+
 }
