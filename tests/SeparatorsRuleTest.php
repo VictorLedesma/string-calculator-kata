@@ -22,7 +22,7 @@ final class SeparatorsRuleTest extends TestCase
     {
         $input = "1,\n2";
         $expected = [
-            "Number expected but ',' found at position 3."
+            "Number expected but ',' found at position 2."
         ];
 
         $result = $this->rule->validate($input);
