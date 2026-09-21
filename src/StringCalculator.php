@@ -10,9 +10,12 @@ final class StringCalculator
 {
 
     private ExpressionEvaluator $evaluator;
+    private array $rules;
+
     public function __construct()
     {
         $this->evaluator = new ExpressionEvaluator();
+        $this->rules = [];
     }
 
     public function add(string $numbers): string
