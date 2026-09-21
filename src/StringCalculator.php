@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MRC\StringCalculator;
 
 use InvalidArgumentException;
+use MRC\StringCalculator\Rules\NegativesRule;
 
 final class StringCalculator
 {
@@ -15,7 +16,7 @@ final class StringCalculator
     public function __construct()
     {
         $this->evaluator = new ExpressionEvaluator();
-        $this->rules = [];
+        $this->rules = [new NegativesRule()];
     }
 
     public function add(string $numbers): string
@@ -41,6 +42,7 @@ final class StringCalculator
     private function calculate(string $numbers, callable $operation): string
     {
         try {
+
             if ($this->isEmpty($numbers)) {
                 return '0';
             }
