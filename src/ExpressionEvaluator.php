@@ -31,6 +31,8 @@ final class ExpressionEvaluator
 
     private function calculateExpression(array $parts): float
     {
+        $parts = $this->calculateParentheses($parts);
+
         $parts = $this->calculateMultiplicationAndDivision($parts);
 
         return $this->calculateAdditionAndSubtraction($parts);
@@ -66,6 +68,22 @@ final class ExpressionEvaluator
     private function isOperator(string $character): bool
     {
         return in_array($character, self::OPERATORS, true);
+    }
+
+    private function calculateParentheses(array $parts): array
+    {
+        while (in_array('(', $parts, true)) {
+            $openPosition = array_search('(', $parts, true);
+            $closePosition = array_search(')', $parts, true);
+
+            $inside = array_slice($parts, $openPosition + 1, $closePosition - $openPosition - 1);
+
+            $result = $this->calculateExpression($inside);
+
+            array_splice($parts, $openPosition, $closePosition - $openPosition + 1, [(string) $result]);
+        }
+        return $parts;
+
     }
 
     private function calculateMultiplicationAndDivision(array $parts): array
