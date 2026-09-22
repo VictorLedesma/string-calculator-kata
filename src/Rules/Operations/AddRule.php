@@ -11,9 +11,14 @@ final class AddRule implements OperatorRule
 {
     public function calculate(array $parts): array
     {
-        $left = (float) $parts[0];
-        $right = (float) $parts[2];
+        $result = 0;
 
-        return [(string) ($left + $right)];
+        foreach ($parts as $part) {
+            if ($part === '+') {
+                continue;
+            }
+            $result += (float) $part;
+        }
+        return [(string) $result];
     }
 }
