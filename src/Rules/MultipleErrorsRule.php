@@ -9,25 +9,52 @@ use MRC\StringCalculator\Rule;
 
 final class MultipleErrorsRule implements Rule
 {
+    private array $rules;
+
+    public function __construct()
+    {
+        $this->rules = [
+            new NegativesRule(),
+            new SeparatorsRule(),
+        ];
+    }
+
     public function validate(string $input): array
     {
         $errors = [];
-        $parts = explode(',', $input);
-        $position = 0;
 
-        foreach ($parts as $part) {
-            if ((float) $part < 0) {
-                $errors[] = 'Negative not allowed: ' . $part;
+        foreach ($this->rules as $rule) {
+            foreach ($rule->validate($input) as $error) {
+                $errors[] = [
+                    'message' => $error,
+                    'position' => $this->getErrorPosition($input, $error),
+                ];
             }
-
-            if ($part === '') {
-                $errors[] = "Number expected but ',' found at position " . $position;
-
-            }
-
-            $position += strlen($part) + 1;
-
         }
-        return $errors;
+
+        usort(
+            $errors,
+            fn(array $first, array $second) =>
+                $first['position'] <=> $second['position']
+        );
+
+        return array_column($errors, 'message');
+    }
+
+    private function getErrorPosition(string $input, string $error): int
+    {
+        if (str_starts_with($error, 'Negative not allowed: ')) {
+            $number = substr($error, strlen('Negative not allowed: '));
+
+            return strpos($input, $number);
+        }
+
+        if (str_starts_with($error, "Number expected but ',' found at position ")) {
+            preg_match('/position (\d+)/', $error, $matches);
+
+            return (int) $matches[1];
+        }
+
+        return PHP_INT_MAX;
     }
 }

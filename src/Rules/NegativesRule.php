@@ -17,15 +17,12 @@ final class NegativesRule implements Rule
 
         foreach ($parts as $part) {
             if ((float) $part < 0) {
-                $negatives[] = $part;
+                $errors[] = 'Negative not allowed: ' . $part;
 
             }
 
         }
-        if ($negatives !== []) {
-            $errors[] = 'Negative not allowed: ' . implode(',', $negatives);
 
-        }
         return $errors;
     }
 }

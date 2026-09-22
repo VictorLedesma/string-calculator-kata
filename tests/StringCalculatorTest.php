@@ -152,7 +152,8 @@ final class StringCalculatorTest extends TestCase
     public function it_cant_work_with_multiple_negative_numbers(): void
     {
         $numbers = "2,-4,-5";
-        $expected = "Negative not allowed: -4,-5";
+        $expected =
+            "Negative not allowed: -4\nNegative not allowed: -5";
 
         $result = $this->calculator->add($numbers);
 
@@ -281,7 +282,7 @@ final class StringCalculatorTest extends TestCase
     public function it_cant_work_with_multiple_negative_numbers_mutiply_case(): void
     {
         $numbers = "2,-4,-5";
-        $expected = "Negative not allowed: -4,-5";
+        $expected = "Negative not allowed: -4\nNegative not allowed: -5";
 
         $result = $this->calculator->multiply($numbers);
 

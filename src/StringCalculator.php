@@ -21,9 +21,9 @@ final class StringCalculator
         $this->evaluator = new ExpressionEvaluator();
 
         $this->rules = [
-            //new MultipleErrorsRule(),
-            new NegativesRule(),
-            new SeparatorsRule(),
+            new MultipleErrorsRule(),
+            //new NegativesRule(),
+            //new SeparatorsRule(),
 
         ];
     }

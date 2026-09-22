@@ -23,7 +23,7 @@ final class MultipleErrorsRuleTest extends TestCase
         $input = '-1,,-2';
         $expected = [
             'Negative not allowed: -1',
-            "Error: Invalid input",
+            "Number expected but ',' found at position 3",
             'Negative not allowed: -2'
         ];
 

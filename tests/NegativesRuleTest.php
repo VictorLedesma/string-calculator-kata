@@ -33,7 +33,8 @@ final class NegativesRuleTest extends TestCase
     {
         $input = '-1,-2';
         $expected = [
-            'Negative not allowed: -1,-2'
+            'Negative not allowed: -1',
+            'Negative not allowed: -2'
         ];
 
         $result = $this->rule->validate($input);
