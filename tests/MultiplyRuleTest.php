@@ -35,4 +35,24 @@ final class MultiplyRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_multiplies_an_arbitrary_amount_of_numbers(): void
+    {
+        $parts = [
+            '2',
+            '*',
+            '2',
+            '*',
+            '2',
+        ];
+
+        $expected = [
+            '8',
+        ];
+
+        $result = $this->rule->calculate($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
