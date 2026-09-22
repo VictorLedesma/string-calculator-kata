@@ -31,4 +31,21 @@ final class DivideRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_divides_an_arbitrary_amount_of_numbers(): void
+    {
+        $parts = [
+            '20',
+            '/',
+            '2',
+            '/',
+            '2',
+        ];
+        $expected = ['5',];
+
+        $result = $this->rule->calculate($parts);
+
+        $this->assertSame($expected, $result);
+    }
 }
