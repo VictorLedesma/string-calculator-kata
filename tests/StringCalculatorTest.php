@@ -335,4 +335,14 @@ final class StringCalculatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function a(): void
+    {
+        $expression = '((5*4)/(5*2))+10';
+        $expected = '12';
+
+        $result = $this->calculator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 }
