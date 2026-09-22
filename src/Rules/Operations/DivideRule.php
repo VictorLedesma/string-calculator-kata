@@ -11,7 +11,16 @@ final class DivideRule implements OperatorRule
 {
     public function calculate(array $parts): array
     {
-        $result = 1;
+        $result = (float) $parts[0];
+
+        foreach ($parts as $part) {
+            if ($part === $parts[0] || $part === '/') {
+                continue;
+            }
+            $number = (float) $part;
+
+            $result /= $number;
+        }
 
         return [(string) $result];
     }
