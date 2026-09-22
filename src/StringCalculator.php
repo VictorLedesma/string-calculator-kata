@@ -6,6 +6,7 @@ namespace MRC\StringCalculator;
 
 use InvalidArgumentException;
 use MRC\StringCalculator\Rules\NegativesRule;
+use MRC\StringCalculator\Rules\SeparatorsRule;
 
 final class StringCalculator
 {
@@ -16,6 +17,7 @@ final class StringCalculator
     public function __construct()
     {
         $this->evaluator = new ExpressionEvaluator();
+        $this->rules = [new SeparatorsRule()];
         $this->rules = [new NegativesRule()];
     }
 
