@@ -16,9 +16,7 @@ final class SeparatorsRule implements Rule
         $invalidPosition = strpos($input, ",\n");
 
         if ($invalidPosition !== false) {
-            $errors[] = "Number expected but ',' found at position "
-                . ($invalidPosition + 1)
-                . ".";
+            $errors[] = "Number expected but ',' found at position " . ($invalidPosition + 1);
         }
 
         return $errors;

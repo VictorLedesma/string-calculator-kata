@@ -22,7 +22,20 @@ final class SeparatorsRuleTest extends TestCase
     {
         $input = "1,\n2";
         $expected = [
-            "Number expected but ',' found at position 2."
+            "Number expected but ',' found at position 2"
+        ];
+
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function it_returns_an_error_when_separators_are_consecutive(): void
+    {
+        $input = '1,,2';
+        $expected = [
+            "Number expected but ',' found at position 3"
         ];
 
         $result = $this->rule->validate($input);
