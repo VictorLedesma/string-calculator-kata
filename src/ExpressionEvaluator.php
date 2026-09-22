@@ -53,7 +53,7 @@ final class ExpressionEvaluator
         }
     }
 
-    private function calculateExpression(array $parts): float
+    public function calculateExpression(array $parts): float
     {
         $parts = $this->calculateParentheses($parts);
 

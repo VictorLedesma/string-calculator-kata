@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Test;
 
+use MRC\StringCalculator\ExpressionEvaluator;
 use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ final class ParenthesesRuleTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->rule = new ParenthesesRule();
+        $this->rule = new ParenthesesRule(new ExpressionEvaluator());
     }
 
     #[Test]
