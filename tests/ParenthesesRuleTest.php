@@ -40,4 +40,32 @@ final class ParenthesesRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_resolves_an_arbitary_amount_of_parentheses(): void
+    {
+        $parts = [
+            '(',
+            '2',
+            '+',
+            '3',
+            ')',
+            '*',
+            '(',
+            '4',
+            '+',
+            '5',
+            ')',
+        ];
+        $expected = [
+            '5',
+            '*',
+            '9',
+        ];
+
+        $result = $this->rule->calculate($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
