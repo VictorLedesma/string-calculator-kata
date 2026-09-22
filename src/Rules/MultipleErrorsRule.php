@@ -21,7 +21,7 @@ final class MultipleErrorsRule implements Rule
             }
 
             if ($part === '') {
-                $errors[] = "Error: Invalid input";
+                $errors[] = "Number expected but ',' found at position " . $position;
 
             }
 

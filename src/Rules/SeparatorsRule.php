@@ -22,7 +22,7 @@ final class SeparatorsRule implements Rule
         $invalidPosition = strpos($input, ",,");
 
         if ($invalidPosition !== false) {
-            $errors[] = "Error: Invalid input";
+            $errors[] = "Number expected but ',' found at position " . $invalidPosition + 1;
         }
 
         if (str_ends_with($input, ",")) {

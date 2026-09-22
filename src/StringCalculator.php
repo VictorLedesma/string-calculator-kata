@@ -7,6 +7,8 @@ namespace MRC\StringCalculator;
 use InvalidArgumentException;
 use MRC\StringCalculator\Rules\NegativesRule;
 use MRC\StringCalculator\Rules\SeparatorsRule;
+use MRC\StringCalculator\Rules\MultipleErrorsRule;
+
 
 final class StringCalculator
 {
@@ -17,8 +19,13 @@ final class StringCalculator
     public function __construct()
     {
         $this->evaluator = new ExpressionEvaluator();
-        $this->rules = [new SeparatorsRule()];
-        $this->rules = [new NegativesRule()];
+
+        $this->rules = [
+            //new MultipleErrorsRule(),
+            new NegativesRule(),
+            new SeparatorsRule(),
+
+        ];
     }
 
     public function add(string $numbers): string
@@ -45,27 +52,27 @@ final class StringCalculator
     {
         try {
 
-            /*$errors = [];
+            $errors = [];
             foreach ($this->rules as $rule) {
                 $errors = array_merge($errors, $rule->validate($numbers));
             }
 
             if ($errors !== []) {
                 throw new InvalidArgumentException(implode("\n", $errors));
-            }*/
+            }
 
             if ($this->isEmpty($numbers)) {
                 return '0';
             }
 
-            $this->validateMultipleErrorsInOrder($numbers);
+            //$this->validateMultipleErrorsInOrder($numbers);
 
-            $this->validateSeparators($numbers);
+            //$this->validateSeparators($numbers);
 
             $numbers = $this->normalizeSeparators($numbers);
             $parts = $this->splitNumbers($numbers);
 
-            $this->validateNegativeNumbers($parts);
+            //$this->validateNegativeNumbers($parts);
 
             $values = array_map('floatval', $parts);
 

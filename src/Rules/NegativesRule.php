@@ -22,7 +22,10 @@ final class NegativesRule implements Rule
             }
 
         }
-        $errors[] = 'Negatives not allowed: ' . implode(',', $negatives);
+        if ($negatives !== []) {
+            $errors[] = 'Negative not allowed: ' . implode(',', $negatives);
+
+        }
         return $errors;
     }
 }

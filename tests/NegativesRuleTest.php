@@ -21,7 +21,7 @@ final class NegativesRuleTest extends TestCase
     public function it_cant_allows_negative_number(): void
     {
         $input = '-1,2';
-        $expected = ['Negatives not allowed: -1',];
+        $expected = ['Negative not allowed: -1',];
 
         $result = $this->rule->validate($input);
 
@@ -33,7 +33,7 @@ final class NegativesRuleTest extends TestCase
     {
         $input = '-1,-2';
         $expected = [
-            'Negatives not allowed: -1,-2'
+            'Negative not allowed: -1,-2'
         ];
 
         $result = $this->rule->validate($input);

@@ -35,7 +35,7 @@ final class SeparatorsRuleTest extends TestCase
     {
         $input = '1,,2';
         $expected = [
-            "Error: Invalid input"
+            "Number expected but ',' found at position 2"
         ];
 
         $result = $this->rule->validate($input);
