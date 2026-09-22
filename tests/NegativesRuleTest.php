@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Test;
 
-use MRC\StringCalculator\Rules\NegativesRule;
+use MRC\StringCalculator\Rules\Validation\NegativesRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

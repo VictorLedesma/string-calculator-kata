@@ -6,7 +6,7 @@ namespace MRC\StringCalculator;
 
 use InvalidArgumentException;
 
-use MRC\StringCalculator\Rules\MultipleErrorsRule;
+use MRC\StringCalculator\Rules\Validation\MultipleErrorsRule;
 
 
 final class StringCalculator

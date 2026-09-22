@@ -6,8 +6,8 @@ namespace MRC\StringCalculator;
 
 use DivisionByZeroError;
 use InvalidArgumentException;
-use MRC\StringCalculator\Rules\InvalidCharacterRule;
-use MRC\StringCalculator\Rules\DivisionByZeroRule;
+use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
+use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;
 
 final class ExpressionEvaluator
 {

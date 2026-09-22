@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MRC\StringCalculator\Rules;
+namespace MRC\StringCalculator\Rules\Validation;
 
 use MRC\StringCalculator\Rule;
 

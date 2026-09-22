@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Test;
 
-use MRC\StringCalculator\Rules\DivisionByZeroRule;
+use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

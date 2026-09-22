@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Test;
 
-use MRC\StringCalculator\Rules\InvalidCharacterRule;
+use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
