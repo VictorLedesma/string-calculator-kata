@@ -31,4 +31,20 @@ final class MultipleErrorsRuleTest extends TestCase
 
         $this->assertEquals($expected, $result);
     }
+
+    #[Test]
+    public function it_returns_multiple_errors_in_their_original_order_switch_case(): void
+    {
+        $input = ',,-1,-2';
+        $expected = [
+            "Number expected but ',' found at position 1",
+            'Negative not allowed: -1',
+            'Negative not allowed: -2'
+        ];
+
+        $result = $this->rule->validate($input);
+
+        $this->assertEquals($expected, $result);
+    }
+
 }
