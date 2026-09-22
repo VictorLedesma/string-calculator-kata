@@ -35,7 +35,7 @@ final class ParenthesesRule implements OperatorRule
                 $parts,
                 $openPosition,
                 $closePosition - $openPosition + 1,
-                [(string) $result]
+                [$result[0]]
             );
         }
 

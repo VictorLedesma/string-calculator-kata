@@ -11,15 +11,35 @@ final class MultiplyRule implements OperatorRule
 {
     public function calculate(array $parts): array
     {
-        $result = 1;
+        $operatorPosition = $this->findMultiplicationOperator($parts);
 
-        foreach ($parts as $part) {
-            if ($part === '*') {
-                continue;
-            }
-            $result *= (float) $part;
+        while ($operatorPosition !== null) {
+            $left = (float) $parts[$operatorPosition - 1];
+            $right = (float) $parts[$operatorPosition + 1];
+
+            $result = $left * $right;
+
+            array_splice(
+                $parts,
+                $operatorPosition - 1,
+                3,
+                [(string) $result]
+            );
+
+            $operatorPosition = $this->findMultiplicationOperator($parts);
         }
 
-        return [(string) $result];
+        return $parts;
+    }
+
+    private function findMultiplicationOperator(array $parts): ?int
+    {
+        foreach ($parts as $position => $part) {
+            if ($part === '*') {
+                return $position;
+            }
+        }
+
+        return null;
     }
 }
