@@ -11,7 +11,15 @@ final class SubtractRule implements OperatorRule
 {
     public function calculate(array $parts): array
     {
-        $result = 0;
+        $result = (float) $parts[0];
+
+        foreach ($parts as $part) {
+            if ($part === $parts[0] || $part === '-') {
+                continue;
+            }
+
+            $result -= (float) $part;
+        }
 
         return [(string) $result];
     }
