@@ -7,5 +7,5 @@ namespace MRC\StringCalculator;
 interface OperatorRule
 {
     /** @return string[] */
-    public function calculate(string $input): float;
+    public function calculate(array $parts): array;
 }
