@@ -11,7 +11,15 @@ final class MultiplyRule implements OperatorRule
 {
     public function calculate(array $parts): array
     {
-        $result = 0;
+        $result = 1;
+
+        foreach ($parts as $part) {
+            if ($part === '*') {
+                continue;
+            }
+            $result *= (float) $part;
+        }
+
         return [(string) $result];
     }
 }
