@@ -22,7 +22,7 @@ final class SeparatorsRuleTest extends TestCase
     {
         $input = "1,\n2";
         $expected = [
-            "Number expected but ',' found at position 2"
+            "Error: Invalid input"
         ];
 
         $result = $this->rule->validate($input);
@@ -35,7 +35,20 @@ final class SeparatorsRuleTest extends TestCase
     {
         $input = '1,,2';
         $expected = [
-            "Number expected but ',' found at position 2"
+            "Error: Invalid input"
+        ];
+
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function it_returns_error_when_a_separator_is_at_the_end(): void
+    {
+        $input = "1,2,";
+        $expected = [
+            "Error: Invalid input"
         ];
 
         $result = $this->rule->validate($input);
