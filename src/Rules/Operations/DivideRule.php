@@ -4,23 +4,46 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Rules\Operations;
 
-use MRC\StringCalculator\OperatorRule;
 use InvalidArgumentException;
-
+use MRC\StringCalculator\ExpressionEvaluator;
+use MRC\StringCalculator\OperatorRule;
+use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;
 
 final class DivideRule implements OperatorRule
 {
+    private DivisionByZeroRule $divisionByZeroRule;
+    private ?ExpressionEvaluator $evaluator;
+
+    public function __construct(?ExpressionEvaluator $evaluator = null, ?DivisionByZeroRule $divisionByZeroRule = null)
+    {
+        $this->divisionByZeroRule = $divisionByZeroRule ?? new DivisionByZeroRule();
+        $this->evaluator = $evaluator;
+    }
+
     public function calculate(array $parts): array
     {
+        $errors = $this->divisionByZeroRule->validate(implode('', $parts));
+
+        foreach ($errors as $error) {
+            if ($this->evaluator !== null) {
+                $this->evaluator->addError($error);
+            }
+        }
+
         while (($operatorPosition = $this->findDivisionOperator($parts)) !== null) {
 
             $left = (float) $parts[$operatorPosition - 1];
             $right = (float) $parts[$operatorPosition + 1];
 
             if ($right === 0.0) {
-                throw new InvalidArgumentException(
-                    'Division by zero not allowed'
+                array_splice(
+                    $parts,
+                    $operatorPosition - 1,
+                    3,
+                    ['0']
                 );
+
+                continue;
             }
 
             $result = $left / $right;

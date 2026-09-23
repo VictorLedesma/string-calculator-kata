@@ -10,14 +10,15 @@ use MRC\StringCalculator\Rules\Operations\DivideRule;
 use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
-use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;
+use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 
 final class ExpressionEvaluator
 {
 
     private array $rules;
     private array $operationRules;
+    private array $errors = [];
 
     private const OPERATORS = [
         '+',
@@ -32,22 +33,28 @@ final class ExpressionEvaluator
     {
         $this->rules = [
             new InvalidCharacterRule(),
-            new DivisionByZeroRule(),
+
         ];
 
         $this->operationRules = [
             new ParenthesesRule($this),
             new MultiplyRule(),
-            new DivideRule(),
+            new DivideRule($this, new DivisionByZeroRule()),
             new AddRule(),
             new SubtractRule(),
         ];
 
     }
 
+    public function addError(string $error): void
+    {
+        $this->errors[] = $error;
+    }
+
     public function evaluate(string $expression): string
     {
         try {
+            $this->errors = [];
             $errors = [];
             foreach ($this->rules as $rule) {
                 $errors = array_merge($errors, $rule->validate($expression));
@@ -60,6 +67,10 @@ final class ExpressionEvaluator
             $parts = $this->splitExpression($expression);
 
             $result = $this->calculateExpression($parts);
+
+            if ($this->errors !== []) {
+                throw new InvalidArgumentException(implode("\n", $this->errors));
+            }
 
             return $result[0];
 

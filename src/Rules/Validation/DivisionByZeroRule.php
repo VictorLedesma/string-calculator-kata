@@ -11,12 +11,15 @@ final class DivisionByZeroRule implements Rule
     public function validate(string $input): array
     {
         $errors = [];
+
         $parts = str_split($input);
 
         for ($i = 0; $i < count($parts) - 1; $i++) {
-            if ($parts[$i] === '/' && (float) $parts[$i + 1] === 0.0) {
+
+            if ($parts[$i] === '/' && $parts[$i + 1] === '0') {
                 $errors[] = 'Division by zero not allowed';
             }
+
         }
 
         return $errors;

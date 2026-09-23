@@ -48,4 +48,22 @@ final class SubtractRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_subtracts_to_zero(): void
+    {
+        $parts = [
+            '2',
+            '-',
+            '2',
+        ];
+
+        $expected = [
+            '0',
+        ];
+
+        $result = $this->rule->calculate($parts);
+
+        $this->assertSame($expected, $result);
+    }
 }
