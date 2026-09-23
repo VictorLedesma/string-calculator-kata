@@ -43,11 +43,6 @@ final class ExpressionEvaluator
         ];
     }
 
-    public function addError(string $error): void
-    {
-        $this->errors[] = $error;
-    }
-
     public function evaluate(string $expression): string
     {
         try {
@@ -74,6 +69,11 @@ final class ExpressionEvaluator
         }
 
         return $parts;
+    }
+
+    public function addError(string $error): void
+    {
+        $this->errors[] = $error;
     }
 
     private function validateExpression(string $expression): void
