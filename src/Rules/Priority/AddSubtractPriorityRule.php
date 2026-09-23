@@ -16,7 +16,10 @@ final class AddSubtractPriorityRule implements PriorityRules
         $operator = $parts[1];
         $right = (float) $parts[2];
 
-        $result = match ($operator) { '+' => $left + $right};
+        $result = match ($operator) {
+            '+' => $left + $right,
+            '-' => $left - $right,
+        };
 
         return [(string) $result,];
     }
