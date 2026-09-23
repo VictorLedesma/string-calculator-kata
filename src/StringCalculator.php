@@ -17,7 +17,6 @@ final class StringCalculator
     public function __construct()
     {
         $this->evaluator = new ExpressionEvaluator();
-
         $this->rules = [
             new MultipleErrorsRule(),
         ];
@@ -25,17 +24,17 @@ final class StringCalculator
 
     public function add(string $numbers): string
     {
-        return $this->calculate($numbers, fn(array $numbers) => array_sum($numbers));
+        return $this->calculate($numbers, fn(array $values): float => array_sum($values));
     }
 
     public function multiply(string $numbers): string
     {
-        return $this->calculate($numbers, fn(array $numbers) => array_product($numbers));
+        return $this->calculate($numbers, fn(array $values): float => array_product($values));
     }
 
     public function divide(string $numbers): string
     {
-        return $this->calculate($numbers, fn(array $numbers) => $this->divideNumbers($numbers));
+        return $this->calculate($numbers, fn(array $values): float => $this->divideNumbers($values));
     }
 
     public function evaluate(string $expression): string
@@ -46,29 +45,31 @@ final class StringCalculator
     private function calculate(string $numbers, callable $operation): string
     {
         try {
-
-            $errors = [];
-            foreach ($this->rules as $rule) {
-                $errors = array_merge($errors, $rule->validate($numbers));
-            }
-
-            if ($errors !== []) {
-                throw new InvalidArgumentException(implode("\n", $errors));
-            }
+            $this->validateInput($numbers);
 
             if ($this->isEmpty($numbers)) {
                 return '0';
             }
 
-            $numbers = $this->normalizeSeparators($numbers);
-            $parts = $this->splitNumbers($numbers);
-
-            $values = array_map('floatval', $parts);
+            $normalizedNumbers = $this->normalizeSeparators($numbers);
+            $values = $this->parseNumbers($normalizedNumbers);
 
             return (string) $operation($values);
-
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
+        }
+    }
+
+    private function validateInput(string $numbers): void
+    {
+        $errors = [];
+
+        foreach ($this->rules as $rule) {
+            $errors = array_merge($errors, $rule->validate($numbers));
+        }
+
+        if ($errors !== []) {
+            throw new InvalidArgumentException(implode("\n", $errors));
         }
     }
 
@@ -79,7 +80,7 @@ final class StringCalculator
 
     private function normalizeSeparators(string $number): string
     {
-        if (str_starts_with($number, "//")) {
+        if (str_starts_with($number, '//')) {
             [$separator, $number] = $this->extractCustomSeparator($number);
 
             return str_replace($separator, ',', $number);
@@ -98,6 +99,11 @@ final class StringCalculator
         return [$separator, $number];
     }
 
+    private function parseNumbers(string $numbers): array
+    {
+        return array_map('floatval', $this->splitNumbers($numbers));
+    }
+
     private function splitNumbers(string $numbers): array
     {
         return explode(',', $numbers);
@@ -108,13 +114,13 @@ final class StringCalculator
         $result = $numbers[0];
 
         foreach (array_slice($numbers, 1) as $number) {
-
             if ($number === 0.0) {
                 throw new InvalidArgumentException('Division by zero not allowed');
             }
 
             $result /= $number;
         }
+
         return $result;
     }
 }

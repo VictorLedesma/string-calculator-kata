@@ -15,7 +15,6 @@ use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 
 final class ExpressionEvaluator
 {
-
     private array $rules;
     private array $operationRules;
     private array $errors = [];
@@ -33,7 +32,6 @@ final class ExpressionEvaluator
     {
         $this->rules = [
             new InvalidCharacterRule(),
-
         ];
 
         $this->operationRules = [
@@ -43,7 +41,6 @@ final class ExpressionEvaluator
             new AddRule(),
             new SubtractRule(),
         ];
-
     }
 
     public function addError(string $error): void
@@ -55,18 +52,9 @@ final class ExpressionEvaluator
     {
         try {
             $this->errors = [];
-            $errors = [];
-
-            foreach ($this->rules as $rule) {
-                $errors = array_merge($errors, $rule->validate($expression));
-            }
-
-            if ($errors !== []) {
-                throw new InvalidArgumentException(implode("\n", $errors));
-            }
+            $this->validateExpression($expression);
 
             $parts = $this->splitExpression($expression);
-
             $result = $this->calculateExpression($parts);
 
             if ($this->errors !== []) {
@@ -74,7 +62,6 @@ final class ExpressionEvaluator
             }
 
             return $result[0];
-
         } catch (InvalidArgumentException $exception) {
             return $exception->getMessage();
         }
@@ -84,9 +71,22 @@ final class ExpressionEvaluator
     {
         foreach ($this->operationRules as $rule) {
             $parts = $rule->calculate($parts);
-
         }
+
         return $parts;
+    }
+
+    private function validateExpression(string $expression): void
+    {
+        $errors = [];
+
+        foreach ($this->rules as $rule) {
+            $errors = array_merge($errors, $rule->validate($expression));
+        }
+
+        if ($errors !== []) {
+            throw new InvalidArgumentException(implode("\n", $errors));
+        }
     }
 
     private function splitExpression(string $expression): array
@@ -95,9 +95,7 @@ final class ExpressionEvaluator
         $number = '';
 
         foreach (str_split($expression) as $character) {
-
             if ($this->isOperator($character)) {
-
                 if ($number !== '') {
                     $parts[] = $number;
                     $number = '';
@@ -106,12 +104,14 @@ final class ExpressionEvaluator
                 $parts[] = $character;
                 continue;
             }
+
             $number .= $character;
         }
 
         if ($number !== '') {
             $parts[] = $number;
         }
+
         return $parts;
     }
 
@@ -119,5 +119,4 @@ final class ExpressionEvaluator
     {
         return in_array($character, self::OPERATORS, true);
     }
-
 }
