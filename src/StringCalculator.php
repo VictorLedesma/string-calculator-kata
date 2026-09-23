@@ -91,7 +91,6 @@ final class StringCalculator
     private function extractCustomSeparator(string $number): array
     {
         $separatorEnd = strpos($number, "\n");
-        //\n\n
 
         $separator = substr($number, 2, $separatorEnd - 2);
         $number = substr($number, $separatorEnd + 1);
@@ -116,7 +115,6 @@ final class StringCalculator
 
             $result /= $number;
         }
-
         return $result;
     }
 }

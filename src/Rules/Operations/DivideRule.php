@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Rules\Operations;
 
-use InvalidArgumentException;
 use MRC\StringCalculator\ExpressionEvaluator;
 use MRC\StringCalculator\OperatorRule;
 use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;

@@ -56,6 +56,7 @@ final class ExpressionEvaluator
         try {
             $this->errors = [];
             $errors = [];
+
             foreach ($this->rules as $rule) {
                 $errors = array_merge($errors, $rule->validate($expression));
             }
@@ -83,10 +84,9 @@ final class ExpressionEvaluator
     {
         foreach ($this->operationRules as $rule) {
             $parts = $rule->calculate($parts);
+
         }
-
         return $parts;
-
     }
 
     private function splitExpression(string $expression): array

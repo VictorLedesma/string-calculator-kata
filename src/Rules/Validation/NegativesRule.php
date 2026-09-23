@@ -12,7 +12,6 @@ final class NegativesRule implements Rule
     public function validate(string $input): array
     {
         $errors = [];
-        $negatives = [];
         $parts = explode(',', $input);
 
         foreach ($parts as $part) {
@@ -22,7 +21,6 @@ final class NegativesRule implements Rule
             }
 
         }
-
         return $errors;
     }
 }
