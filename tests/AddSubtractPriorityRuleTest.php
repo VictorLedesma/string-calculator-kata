@@ -35,4 +35,21 @@ final class AddSubtractPriorityRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_resolves_subtraction_priority(): void
+    {
+        $parts = [
+            '4',
+            '-',
+            '2',
+        ];
+        $expected = [
+            '2',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
