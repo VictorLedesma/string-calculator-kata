@@ -52,4 +52,25 @@ final class AddSubtractPriorityRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_resolves_subtractions_from_left_to_right(): void
+    {
+        $parts = [
+            '10',
+            '-',
+            '5',
+            '-',
+            '2',
+        ];
+        $expected = [
+            '5',
+            '-',
+            '2',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
