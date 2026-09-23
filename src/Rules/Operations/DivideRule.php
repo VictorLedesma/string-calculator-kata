@@ -30,8 +30,9 @@ final class DivideRule implements OperatorRule
             }
         }
 
-        while (($operatorPosition = $this->findDivisionOperator($parts)) !== null) {
+        $operatorPosition = $this->findDivisionOperator($parts);
 
+        for (; $operatorPosition !== null; $operatorPosition = $this->findDivisionOperator($parts)) {
             $left = (float) $parts[$operatorPosition - 1];
             $right = (float) $parts[$operatorPosition + 1];
 

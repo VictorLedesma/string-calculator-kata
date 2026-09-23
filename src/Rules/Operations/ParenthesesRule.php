@@ -19,28 +19,29 @@ final class ParenthesesRule implements OperatorRule
     }
     public function calculate(array $parts): array
     {
-        while (in_array('(', $parts, true)) {
+        $openPosition = array_search('(', $parts, true);
 
-            $openPosition = array_search('(', $parts, true);
-            $closePosition = $this->findClosingPosition($parts, $openPosition);
-
-            $inside = array_slice(
-                $parts,
-                $openPosition + 1,
-                $closePosition - $openPosition - 1
-            );
-
-            $result = $this->evaluator->calculateExpression($inside);
-
-            array_splice(
-                $parts,
-                $openPosition,
-                $closePosition - $openPosition + 1,
-                [$result[0]]
-            );
+        if ($openPosition === false) {
+            return $parts;
         }
 
-        return $parts;
+        $closePosition = $this->findClosingPosition($parts, $openPosition);
+
+        $inside = array_slice(
+            $parts,
+            $openPosition + 1,
+            $closePosition - $openPosition - 1
+        );
+
+        $result = $this->evaluator->calculateExpression($inside);
+
+        $parts = array_merge(
+            array_slice($parts, 0, $openPosition),
+            [$result[0]],
+            array_slice($parts, $closePosition + 1)
+        );
+
+        return $this->calculate($parts);
     }
 
     private function findClosingPosition(array $parts, int $openPosition): int

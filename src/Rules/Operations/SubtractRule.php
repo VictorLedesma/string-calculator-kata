@@ -17,17 +17,12 @@ final class SubtractRule implements OperatorRule
 
         $result = (float) $parts[0];
 
-        for ($i = 1; $i < count($parts); $i++) {
-
-            if ($parts[$i] === '-') {
-                continue;
+        for ($index = 1; $index < count($parts); $index++) {
+            if ($parts[$index] !== '-') {
+                $result -= (float) $parts[$index];
             }
-
-            $result -= (float) $parts[$i];
         }
 
-        return [
-            (string) $result
-        ];
+        return [(string) $result];
     }
 }

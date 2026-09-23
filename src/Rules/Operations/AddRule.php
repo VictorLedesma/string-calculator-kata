@@ -15,19 +15,14 @@ final class AddRule implements OperatorRule
             return $parts;
         }
 
-        $result = 0;
+        $result = 0.0;
 
         foreach ($parts as $part) {
-
-            if ($part === '+') {
-                continue;
+            if ($part !== '+') {
+                $result += (float) $part;
             }
-
-            $result += (float) $part;
         }
 
-        return [
-            (string) $result
-        ];
+        return [(string) $result];
     }
 }

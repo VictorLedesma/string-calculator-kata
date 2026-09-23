@@ -13,7 +13,7 @@ final class MultiplyRule implements OperatorRule
     {
         $operatorPosition = $this->findMultiplicationOperator($parts);
 
-        while ($operatorPosition !== null) {
+        for (; $operatorPosition !== null; $operatorPosition = $this->findMultiplicationOperator($parts)) {
             $left = (float) $parts[$operatorPosition - 1];
             $right = (float) $parts[$operatorPosition + 1];
 
@@ -25,8 +25,6 @@ final class MultiplyRule implements OperatorRule
                 3,
                 [(string) $result]
             );
-
-            $operatorPosition = $this->findMultiplicationOperator($parts);
         }
 
         return $parts;
