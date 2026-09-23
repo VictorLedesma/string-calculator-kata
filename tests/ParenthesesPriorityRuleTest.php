@@ -17,6 +17,7 @@ final class ParenthesesPriorityRuleTest extends TestCase
         $this->rule = new ParenthesesPriorityRule();
     }
 
+    #[Test]
     public function it_resolves_parentheses(): void
     {
         $parts = [
