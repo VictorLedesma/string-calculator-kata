@@ -39,4 +39,29 @@ final class ParenthesesPriorityRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_resolves_different_parentheses_expression(): void
+    {
+        $parts = [
+            '(',
+            '4',
+            '+',
+            '6',
+            ')',
+            '*',
+            '2',
+        ];
+        $expected = [
+            '10',
+            '*',
+            '2',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
+
 }
