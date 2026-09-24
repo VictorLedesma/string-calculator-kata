@@ -13,6 +13,7 @@ use MRC\StringCalculator\Rules\Operations\SubtractRule;
 use MRC\StringCalculator\Rules\Priority\ExpressionPriorityRule;
 use MRC\StringCalculator\Rules\Validation\ConsecutiveOperatorsRule;
 use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
+use MRC\StringCalculator\Rules\Validation\ParenthesesValidationRule;
 
 final class ExpressionEvaluator
 {
@@ -34,7 +35,8 @@ final class ExpressionEvaluator
     {
         $this->rules = [
             new InvalidCharacterRule(),
-            new ConsecutiveOperatorsRule()
+            new ConsecutiveOperatorsRule(),
+            new ParenthesesValidationRule(),
         ];
 
         $this->priorityRule = new ExpressionPriorityRule(
