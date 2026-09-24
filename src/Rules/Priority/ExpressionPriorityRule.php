@@ -18,17 +18,41 @@ use MRC\StringCalculator\Rules\Operations\SubtractRule;
 // 4. Calcular left y right
 // 5. Sustituir los 3 elementos por el resultado
 // 6. Repetir hasta reducir la expresión
-class ExpressionPriorityRule implements PriorityRules
+final class ExpressionPriorityRule implements PriorityRules
 {
-    /*public function __construct(
+    public function __construct(
         private AddRule $addRule,
         private SubtractRule $subtractRule,
         private MultiplyRule $multiplyRule,
         private DivideRule $divideRule,
     ) {
-    }*/
+    }
 
     public function apply(array $parts): array
+    {
+        $operation = $this->findOperation($parts);
+
+        if ($operation === null) {
+            return $parts;
+        }
+
+        $result = $this->calculateOperation(
+            $operation['left'],
+            $operation['operator'],
+            $operation['right']
+        );
+
+        array_splice(
+            $parts,
+            $operation['index'],
+            3,
+            $result
+        );
+
+        return $this->apply($parts);
+    }
+
+    private function findOperation(array $parts): ?array
     {
         $levels = [
             ['*', '/'],
@@ -36,19 +60,32 @@ class ExpressionPriorityRule implements PriorityRules
         ];
 
         foreach ($levels as $level) {
-
             foreach ($parts as $index => $part) {
 
                 if (in_array($part, $level, true)) {
                     return [
-                        $parts[$index - 1],
-                        $parts[$index],
-                        $parts[$index + 1],
+                        'index' => $index - 1,
+                        'left' => $parts[$index - 1],
+                        'operator' => $parts[$index],
+                        'right' => $parts[$index + 1],
                     ];
                 }
             }
         }
 
-        return $parts;
+        return null;
+    }
+
+    private function calculateOperation(string $left, string $operator, string $right): array
+    {
+
+        $rule = match ($operator) {
+            '+' => $this->addRule,
+            '-' => $this->subtractRule,
+            '*' => $this->multiplyRule,
+            '/' => $this->divideRule,
+        };
+
+        return $rule->calculate([$left, $operator, $right,]);
     }
 }
