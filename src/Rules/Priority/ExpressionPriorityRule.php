@@ -29,6 +29,20 @@ class ExpressionPriorityRule implements PriorityRules
         // 4. Calcular left y right
         // 5. Sustituir los 3 elementos por el resultado
         // 6. Repetir hasta reducir la expresión
+        foreach ($parts as $index => $part) {
+
+            if (!in_array($part, ['+', '-', '*', '/'], true)) {
+                continue;
+            }
+
+            return [
+                $parts[$index - 1],
+                $part,
+                $parts[$index + 1],
+            ];
+        }
+
         return $parts;
     }
+
 }
