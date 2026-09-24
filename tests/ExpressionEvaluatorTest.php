@@ -140,4 +140,19 @@ final class ExpressionEvaluatorTest extends TestCase
         // Assert
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_returns_error_when_parentheses_are_invalid(): void
+    {
+        // Arrange
+        $expression = '2(3+4)';
+
+        $expected = 'Invalid parentheses';
+
+        // Act
+        $result = $this->evaluator->evaluate($expression);
+
+        // Assert
+        $this->assertSame($expected, $result);
+    }
 }
