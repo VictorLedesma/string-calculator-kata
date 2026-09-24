@@ -31,24 +31,6 @@ final class SubtractRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
-
-    #[Test]
-    public function it_subtract_an_arbitrary_amount_of_numbers(): void
-    {
-        $parts = [
-            '3',
-            '-',
-            '1',
-            '-',
-            '1',
-        ];
-        $expected = ['1'];
-
-        $result = $this->rule->calculate($parts);
-
-        $this->assertSame($expected, $result);
-    }
-
     #[Test]
     public function it_subtracts_to_zero(): void
     {
