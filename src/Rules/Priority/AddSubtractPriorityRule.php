@@ -11,18 +11,29 @@ final class AddSubtractPriorityRule implements PriorityRules
 {
     public function apply(array $parts): array
     {
+        foreach ($parts as $index => $part) {
 
-        $left = (float) $parts[0];
-        $operator = $parts[1];
-        $right = (float) $parts[2];
+            if ($part !== '+' && $part !== '-') {
+                continue;
+            }
 
-        $result = match ($operator) {
-            '+' => $left + $right,
-            '-' => $left - $right,
-        };
+            $left = (float) $parts[$index - 1];
+            $right = (float) $parts[$index + 1];
 
-        return [(string) $result,];
+            $result = match ($part) {
+                '+' => $left + $right,
+                '-' => $left - $right,
+            };
+
+            array_splice(
+                $parts,
+                $index - 1,
+                3,
+                [(string) $result]
+            );
+            break;
+        }
+        return $parts;
     }
-
 
 }
