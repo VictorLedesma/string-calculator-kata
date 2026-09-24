@@ -11,7 +11,6 @@ use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
 use MRC\StringCalculator\Rules\Priority\ExpressionPriorityRule;
-use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;
 use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 
 final class ExpressionEvaluator
