@@ -12,6 +12,7 @@ use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
 use MRC\StringCalculator\Rules\Priority\ExpressionPriorityRule;
 use MRC\StringCalculator\Rules\Validation\ConsecutiveOperatorsRule;
+use MRC\StringCalculator\Rules\Validation\EmptyExpressionRule;
 use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 use MRC\StringCalculator\Rules\Validation\ParenthesesValidationRule;
 
@@ -34,6 +35,7 @@ final class ExpressionEvaluator
     public function __construct()
     {
         $this->rules = [
+            new EmptyExpressionRule(),
             new InvalidCharacterRule(),
             new ConsecutiveOperatorsRule(),
             new ParenthesesValidationRule(),

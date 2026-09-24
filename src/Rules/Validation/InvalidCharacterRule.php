@@ -20,6 +20,10 @@ final class InvalidCharacterRule implements Rule
 
     public function validate(string $input): array
     {
+        if ($input === '') {
+            return [];
+        }
+
         $errors = [];
 
         foreach (str_split($input) as $character) {
