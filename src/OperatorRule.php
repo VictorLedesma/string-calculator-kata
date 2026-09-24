@@ -6,6 +6,6 @@ namespace MRC\StringCalculator;
 
 interface OperatorRule
 {
-    /** @return string[] */
-    public function calculate(array $parts): array;
+    /** @return string[]|null */
+    public function calculate(array $parts): ?array;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Rules\Priority;
 
+use MRC\StringCalculator\OperatorRule;
 use MRC\StringCalculator\PriorityRules;
 use MRC\StringCalculator\Rules\Operations\AddRule;
 use MRC\StringCalculator\Rules\Operations\DivideRule;
@@ -11,14 +12,11 @@ use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
 
-// 1. Buscar la siguiente operación según prioridad
-// 2. Obtener left, operator y right
-// 3. Elegir la OperationRule correspondiente
-// 4. Calcular left y right
-// 5. Sustituir los 3 elementos por el resultado
-// 6. Repetir hasta reducir la expresión
 final class ExpressionPriorityRule implements PriorityRules
 {
+    /** @var array<int, array<int, OperatorRule>> */
+    private array $operationRules;
+
     public function __construct(
         private ParenthesesRule $parenthesesRule,
         private MultiplyRule $multiplyRule,
@@ -26,6 +24,10 @@ final class ExpressionPriorityRule implements PriorityRules
         private AddRule $addRule,
         private SubtractRule $subtractRule,
     ) {
+        $this->operationRules = [
+            [$this->multiplyRule, $this->divideRule],
+            [$this->addRule, $this->subtractRule],
+        ];
     }
 
     public function apply(array $parts): array
@@ -33,61 +35,50 @@ final class ExpressionPriorityRule implements PriorityRules
 
         $parts = $this->parenthesesRule->calculate($parts);
 
-        $operation = $this->findOperation($parts);
-
-        if ($operation === null) {
-            return $parts;
+        foreach ($this->operationRules as $rules) {
+            $parts = $this->applyPriorityLevel($parts, $rules);
         }
 
-        $result = $this->calculateOperation(
-            $operation['left'],
-            $operation['operator'],
-            $operation['right']
-        );
-
-        array_splice(
-            $parts,
-            $operation['index'],
-            3,
-            $result
-        );
-
-        return $this->apply($parts);
+        return $parts;
     }
 
-    private function findOperation(array $parts): ?array
+    /** @param OperatorRule[] $rules */
+    private function applyPriorityLevel(array $parts, array $rules): array
     {
-        $levels = [
-            ['*', '/'],
-            ['+', '-'],
-        ];
+        foreach (array_keys($parts) as $index) {
+            if ($index < 1 || $index >= count($parts) - 1) {
+                continue;
+            }
 
-        foreach ($levels as $level) {
-            foreach ($parts as $index => $part) {
+            $result = $this->calculateOperation(
+                array_slice($parts, $index - 1, 3),
+                $rules
+            );
 
-                if (in_array($part, $level, true)) {
-                    return [
-                        'index' => $index - 1,
-                        'left' => $parts[$index - 1],
-                        'operator' => $parts[$index],
-                        'right' => $parts[$index + 1],
-                    ];
-                }
+            if ($result === null) {
+                continue;
+            }
+
+            array_splice($parts, $index - 1, 3, $result);
+
+            return $this->applyPriorityLevel($parts, $rules);
+        }
+
+        return $parts;
+    }
+
+    /** @param OperatorRule[] $rules */
+    private function calculateOperation(array $parts, array $rules): ?array
+    {
+        foreach ($rules as $rule) {
+            $result = $rule->calculate($parts);
+
+            if ($result !== null) {
+                return $result;
             }
         }
+
         return null;
-    }
-
-    private function calculateOperation(string $left, string $operator, string $right): array
-    {
-        $rule = match ($operator) {
-            '*' => $this->multiplyRule,
-            '/' => $this->divideRule,
-            '+' => $this->addRule,
-            '-' => $this->subtractRule,
-        };
-
-        return $rule->calculate([$left, $operator, $right,]);
     }
 
 }
