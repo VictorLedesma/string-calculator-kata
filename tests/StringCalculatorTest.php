@@ -345,4 +345,26 @@ final class StringCalculatorTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function b(): void
+    {
+        $expression = '((5*-4)/(5*2))+10';
+        $expected = 'Consecutive operators are not allowed';
+
+        $result = $this->calculator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function c(): void
+    {
+        $expression = '((5*/4)/(5*2))+10';
+        $expected = 'Consecutive operators are not allowed';
+
+        $result = $this->calculator->evaluate($expression);
+
+        $this->assertSame($expected, $result);
+    }
 }
