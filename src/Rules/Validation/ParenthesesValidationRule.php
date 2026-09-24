@@ -20,6 +20,10 @@ final class ParenthesesValidationRule implements Rule
             return ['Invalid parentheses'];
         }
 
+        if (preg_match('/\d\(/', $input)) {
+            return ['Invalid parentheses'];
+        }
+
         return [];
     }
 
