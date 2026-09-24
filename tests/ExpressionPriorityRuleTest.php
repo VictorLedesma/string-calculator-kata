@@ -90,4 +90,37 @@ final class ExpressionPriorityRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+    #[Test]
+    public function it_resolves_parentheses_inside_parentheses(): void
+    {
+        // Arrange
+        $parts = [
+            '(',
+            '(',
+            '5',
+            '*',
+            '4',
+            ')',
+            '/',
+            '(',
+            '5',
+            '*',
+            '2',
+            ')',
+            ')',
+            '+',
+            '10',
+        ];
+
+        $expected = [
+            '12',
+        ];
+
+        // Act
+        $result = $this->rule->apply($parts);
+
+        // Assert
+        $this->assertSame($expected, $result);
+    }
+
 }
