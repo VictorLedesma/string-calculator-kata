@@ -40,7 +40,7 @@ final class ExpressionEvaluator
         $this->priorityRule = new ExpressionPriorityRule(
             new ParenthesesRule($this),
             new MultiplyRule(),
-            new DivideRule($this, new DivisionByZeroRule()),
+            new DivideRule($this),
             new AddRule(),
             new SubtractRule(),
         );
