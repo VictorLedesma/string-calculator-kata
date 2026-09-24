@@ -8,6 +8,7 @@ use MRC\StringCalculator\PriorityRules;
 use MRC\StringCalculator\Rules\Operations\AddRule;
 use MRC\StringCalculator\Rules\Operations\DivideRule;
 use MRC\StringCalculator\Rules\Operations\MultiplyRule;
+use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
 
 // 1. Buscar la siguiente operación según prioridad
@@ -19,6 +20,7 @@ use MRC\StringCalculator\Rules\Operations\SubtractRule;
 final class ExpressionPriorityRule implements PriorityRules
 {
     public function __construct(
+        private ParenthesesRule $parenthesesRule,
         private MultiplyRule $multiplyRule,
         private DivideRule $divideRule,
         private AddRule $addRule,
@@ -29,7 +31,7 @@ final class ExpressionPriorityRule implements PriorityRules
     public function apply(array $parts): array
     {
 
-        $parts = $this->resolveParentheses($parts);
+        $parts = $this->parenthesesRule->calculate($parts);
 
         $operation = $this->findOperation($parts);
 
@@ -89,57 +91,4 @@ final class ExpressionPriorityRule implements PriorityRules
         return $rule->calculate([$left, $operator, $right,]);
     }
 
-    private function resolveParentheses(array $parts): array
-    {
-        $open = array_search('(', $parts, true);
-
-        if ($open === false) {
-            return $parts;
-        }
-
-        $close = $this->findClosingParenthesis($parts, $open);
-
-        $inside = array_slice(
-            $parts,
-            $open + 1,
-            $close - $open - 1
-        );
-
-        $result = $this->apply($inside);
-
-        array_splice(
-            $parts,
-            $open,
-            $close - $open + 1,
-            $result
-        );
-
-        return $this->apply($parts);
-    }
-
-    private function findClosingParenthesis(array $parts, int $open): int
-    {
-        $level = 0;
-
-        foreach ($parts as $index => $part) {
-
-            if ($index < $open) {
-                continue;
-            }
-
-            if ($part === '(') {
-                $level++;
-            }
-
-            if ($part === ')') {
-                $level--;
-
-                if ($level === 0) {
-                    return $index;
-                }
-            }
-        }
-
-        throw new \LogicException('Invalid parentheses');
-    }
 }

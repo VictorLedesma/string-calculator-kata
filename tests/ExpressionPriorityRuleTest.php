@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MRC\StringCalculator\Test;
 
+use MRC\StringCalculator\ExpressionEvaluator;
 use MRC\StringCalculator\Rules\Priority\ExpressionPriorityRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,7 @@ use MRC\StringCalculator\Rules\Operations\AddRule;
 use MRC\StringCalculator\Rules\Operations\DivideRule;
 use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
+use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 
 
 final class ExpressionPriorityRuleTest extends TestCase
@@ -19,7 +21,10 @@ final class ExpressionPriorityRuleTest extends TestCase
 
     protected function setUp(): void
     {
+        $evaluator = new ExpressionEvaluator();
+
         $this->rule = new ExpressionPriorityRule(
+            new ParenthesesRule($evaluator),
             new MultiplyRule(),
             new DivideRule(),
             new AddRule(),
