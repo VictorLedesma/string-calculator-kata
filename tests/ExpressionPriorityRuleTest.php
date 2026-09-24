@@ -58,4 +58,25 @@ final class ExpressionPriorityRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_resolves_same_priority_operations_from_left_to_right(): void
+    {
+        $parts = [
+            '10',
+            '/',
+            '2',
+            '*',
+            '5',
+        ];
+        $expected = [
+            '10',
+            '/',
+            '2',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
 }
