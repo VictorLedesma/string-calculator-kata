@@ -128,4 +128,26 @@ final class ExpressionPriorityRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_resolves_parentheses_with_priority_inside(): void
+    {
+        $parts = [
+            '(',
+            '2',
+            '+',
+            '3',
+            '*',
+            '4',
+            ')',
+        ];
+
+        $expected = [
+            '14',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
 }

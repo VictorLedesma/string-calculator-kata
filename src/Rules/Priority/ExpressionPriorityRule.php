@@ -75,7 +75,6 @@ final class ExpressionPriorityRule implements PriorityRules
                 }
             }
         }
-
         return null;
     }
 
