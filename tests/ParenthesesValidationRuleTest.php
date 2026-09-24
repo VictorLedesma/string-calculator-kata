@@ -82,4 +82,20 @@ final class ParenthesesValidationRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_detects_no_operators_following_a_parenthese_reverse(): void
+    {
+        // Arrange
+        $input = '(3+4)2';
+
+        $expected = [
+            'Invalid parentheses',
+        ];
+
+        // Act
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
