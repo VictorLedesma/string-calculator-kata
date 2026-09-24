@@ -31,7 +31,6 @@ final class ParenthesesValidationRuleTest extends TestCase
         // Act
         $result = $this->rule->validate($input);
 
-        // Assert
         $this->assertSame($expected, $result);
     }
 

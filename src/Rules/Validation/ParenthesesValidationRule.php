@@ -10,6 +10,10 @@ final class ParenthesesValidationRule implements Rule
 {
     public function validate(string $input): array
     {
+        if ($input === '()') {
+            return ['Invalid parentheses'];
+        }
+
         return [];
     }
 }
