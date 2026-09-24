@@ -11,12 +11,12 @@ use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
 use MRC\StringCalculator\Rules\Priority\ExpressionPriorityRule;
+use MRC\StringCalculator\Rules\Validation\ConsecutiveOperatorsRule;
 use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 
 final class ExpressionEvaluator
 {
     private array $rules;
-    private array $operationRules;
     private array $errors = [];
 
     private ExpressionPriorityRule $priorityRule;
@@ -34,6 +34,7 @@ final class ExpressionEvaluator
     {
         $this->rules = [
             new InvalidCharacterRule(),
+            new ConsecutiveOperatorsRule()
         ];
 
         $this->priorityRule = new ExpressionPriorityRule(
