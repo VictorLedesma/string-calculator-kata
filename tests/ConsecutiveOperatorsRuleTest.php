@@ -31,4 +31,5 @@ final class ConsecutiveOperatorsRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
 }

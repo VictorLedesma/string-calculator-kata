@@ -126,4 +126,18 @@ final class ExpressionEvaluatorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_returns_error_when_expression_has_consecutive_operators(): void
+    {
+        // Arrange
+        $expression = '5*-4';
+
+        $expected = 'Consecutive operators are not allowed';
+
+        // Act
+        $result = $this->evaluator->evaluate($expression);
+
+        // Assert
+        $this->assertSame($expected, $result);
+    }
 }
