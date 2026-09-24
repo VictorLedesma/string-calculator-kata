@@ -37,4 +37,25 @@ final class ExpressionPriorityRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_prioritizes_multiplication_over_addition(): void
+    {
+        $parts = [
+            '4',
+            '+',
+            '2',
+            '*',
+            '3',
+        ];
+        $expected = [
+            '2',
+            '*',
+            '3',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
 }
