@@ -10,10 +10,17 @@ final class ParenthesesValidationRule implements Rule
 {
     public function validate(string $input): array
     {
-        if ($input === '()') {
+        if (
+            substr_count($input, '(') !== substr_count($input, ')')
+        ) {
+            return ['Invalid parentheses'];
+        }
+
+        if (str_contains($input, '()')) {
             return ['Invalid parentheses'];
         }
 
         return [];
     }
+
 }
