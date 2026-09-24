@@ -92,11 +92,12 @@ final class ExpressionPriorityRule implements PriorityRules
     private function resolveParentheses(array $parts): array
     {
         $open = array_search('(', $parts, true);
-        $close = array_search(')', $parts, true);
 
-        if ($open === false || $close === false) {
+        if ($open === false) {
             return $parts;
         }
+
+        $close = $this->findClosingParenthesis($parts, $open);
 
         $inside = array_slice(
             $parts,
@@ -114,5 +115,31 @@ final class ExpressionPriorityRule implements PriorityRules
         );
 
         return $this->apply($parts);
+    }
+
+    private function findClosingParenthesis(array $parts, int $open): int
+    {
+        $level = 0;
+
+        foreach ($parts as $index => $part) {
+
+            if ($index < $open) {
+                continue;
+            }
+
+            if ($part === '(') {
+                $level++;
+            }
+
+            if ($part === ')') {
+                $level--;
+
+                if ($level === 0) {
+                    return $index;
+                }
+            }
+        }
+
+        throw new \LogicException('Invalid parentheses');
     }
 }
