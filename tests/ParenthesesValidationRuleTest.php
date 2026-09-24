@@ -34,4 +34,20 @@ final class ParenthesesValidationRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    #[Test]
+    public function it_detect_uncompleted_parentheses(): void
+    {
+        // Arrange
+        $input = '(2*3)+4)';
+
+        $expected = [
+            'Invalid parentheses',
+        ];
+
+        // Act
+        $result = $this->rule->validate($input);
+
+        $this->assertSame($expected, $result);
+    }
+
 }
