@@ -21,15 +21,38 @@ use MRC\StringCalculator\Rules\Operations\SubtractRule;
 final class ExpressionPriorityRule implements PriorityRules
 {
     public function __construct(
-        private AddRule $addRule,
-        private SubtractRule $subtractRule,
         private MultiplyRule $multiplyRule,
         private DivideRule $divideRule,
+        private AddRule $addRule,
+        private SubtractRule $subtractRule,
     ) {
     }
 
     public function apply(array $parts): array
     {
+        $open = array_search('(', $parts, true);
+        $close = array_search(')', $parts, true);
+
+        if ($open !== false && $close !== false) {
+
+            $inside = array_slice(
+                $parts,
+                $open + 1,
+                $close - $open - 1
+            );
+
+            $result = $this->apply($inside);
+
+            array_splice(
+                $parts,
+                $open,
+                $close - $open + 1,
+                $result
+            );
+
+            return $this->apply($parts);
+        }
+
         $operation = $this->findOperation($parts);
 
         if ($operation === null) {
@@ -80,10 +103,10 @@ final class ExpressionPriorityRule implements PriorityRules
     {
 
         $rule = match ($operator) {
-            '+' => $this->addRule,
-            '-' => $this->subtractRule,
             '*' => $this->multiplyRule,
             '/' => $this->divideRule,
+            '+' => $this->addRule,
+            '-' => $this->subtractRule,
         };
 
         return $rule->calculate([$left, $operator, $right,]);

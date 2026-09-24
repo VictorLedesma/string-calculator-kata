@@ -20,10 +20,10 @@ final class ExpressionPriorityRuleTest extends TestCase
     protected function setUp(): void
     {
         $this->rule = new ExpressionPriorityRule(
-            new AddRule(),
-            new SubtractRule(),
             new MultiplyRule(),
             new DivideRule(),
+            new AddRule(),
+            new SubtractRule(),
         );
 
     }
