@@ -10,8 +10,6 @@ use MRC\StringCalculator\Rules\Operations\DivideRule;
 use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
 
-
-
 // 1. Buscar la siguiente operación según prioridad
 // 2. Obtener left, operator y right
 // 3. Elegir la OperationRule correspondiente
@@ -30,28 +28,8 @@ final class ExpressionPriorityRule implements PriorityRules
 
     public function apply(array $parts): array
     {
-        $open = array_search('(', $parts, true);
-        $close = array_search(')', $parts, true);
 
-        if ($open !== false && $close !== false) {
-
-            $inside = array_slice(
-                $parts,
-                $open + 1,
-                $close - $open - 1
-            );
-
-            $result = $this->apply($inside);
-
-            array_splice(
-                $parts,
-                $open,
-                $close - $open + 1,
-                $result
-            );
-
-            return $this->apply($parts);
-        }
+        $parts = $this->resolveParentheses($parts);
 
         $operation = $this->findOperation($parts);
 
@@ -101,7 +79,6 @@ final class ExpressionPriorityRule implements PriorityRules
 
     private function calculateOperation(string $left, string $operator, string $right): array
     {
-
         $rule = match ($operator) {
             '*' => $this->multiplyRule,
             '/' => $this->divideRule,
@@ -110,5 +87,32 @@ final class ExpressionPriorityRule implements PriorityRules
         };
 
         return $rule->calculate([$left, $operator, $right,]);
+    }
+
+    private function resolveParentheses(array $parts): array
+    {
+        $open = array_search('(', $parts, true);
+        $close = array_search(')', $parts, true);
+
+        if ($open === false || $close === false) {
+            return $parts;
+        }
+
+        $inside = array_slice(
+            $parts,
+            $open + 1,
+            $close - $open - 1
+        );
+
+        $result = $this->apply($inside);
+
+        array_splice(
+            $parts,
+            $open,
+            $close - $open + 1,
+            $result
+        );
+
+        return $this->apply($parts);
     }
 }
