@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace MRC\StringCalculator\Rules\Validation;
 
 use MRC\StringCalculator\Rule;
+use function PHPUnit\Framework\isEmpty;
 
 
 final class EmptyExpressionRule implements Rule
 {
     public function validate(string $input): array
     {
+        if (isEmpty($input)) {
+            return ['Expression cannot be empty'];
+        }
         return [];
     }
 }
