@@ -16,6 +16,7 @@ final class EmptyExpressionRuleTest extends TestCase
     {
         $this->rule = new EmptyExpressionRule();
     }
+
     #[Test]
     public function it_detects_empty_expression(): void
     {

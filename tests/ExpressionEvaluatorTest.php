@@ -155,4 +155,20 @@ final class ExpressionEvaluatorTest extends TestCase
         // Assert
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_detects_empty_expression(): void
+    {
+        // Arrange
+        $input = '';
+
+        $expected = 'Expression cannot be empty';
+
+        // Act
+        $result = $this->evaluator->evaluate($input);
+
+        // Assert
+        $this->assertSame($expected, $result);
+    }
+
 }
