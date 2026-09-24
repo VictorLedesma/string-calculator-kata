@@ -35,23 +35,4 @@ final class AddRuleTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    #[Test]
-    public function it_adds_an_arbitrary_amount_of_numbers(): void
-    {
-        $parts = [
-            '1',
-            '+',
-            '2',
-            '+',
-            '3',
-        ];
-
-        $expected = [
-            '6',
-        ];
-
-        $result = $this->rule->calculate($parts);
-
-        $this->assertSame($expected, $result);
-    }
 }

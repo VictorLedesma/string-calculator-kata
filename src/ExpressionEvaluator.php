@@ -10,6 +10,7 @@ use MRC\StringCalculator\Rules\Operations\DivideRule;
 use MRC\StringCalculator\Rules\Operations\MultiplyRule;
 use MRC\StringCalculator\Rules\Operations\ParenthesesRule;
 use MRC\StringCalculator\Rules\Operations\SubtractRule;
+use MRC\StringCalculator\Rules\Priority\ExpressionPriorityRule;
 use MRC\StringCalculator\Rules\Validation\DivisionByZeroRule;
 use MRC\StringCalculator\Rules\Validation\InvalidCharacterRule;
 
@@ -18,6 +19,8 @@ final class ExpressionEvaluator
     private array $rules;
     private array $operationRules;
     private array $errors = [];
+
+    private ExpressionPriorityRule $priorityRule;
 
     private const OPERATORS = [
         '+',
@@ -34,13 +37,13 @@ final class ExpressionEvaluator
             new InvalidCharacterRule(),
         ];
 
-        $this->operationRules = [
+        $this->priorityRule = new ExpressionPriorityRule(
             new ParenthesesRule($this),
             new MultiplyRule(),
             new DivideRule($this, new DivisionByZeroRule()),
             new AddRule(),
             new SubtractRule(),
-        ];
+        );
     }
 
     public function evaluate(string $expression): string
@@ -64,11 +67,7 @@ final class ExpressionEvaluator
 
     public function calculateExpression(array $parts): array
     {
-        foreach ($this->operationRules as $rule) {
-            $parts = $rule->calculate($parts);
-        }
-
-        return $parts;
+        return $this->priorityRule->apply($parts);
     }
 
     public function addError(string $error): void
