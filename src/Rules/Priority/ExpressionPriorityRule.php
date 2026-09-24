@@ -30,21 +30,25 @@ class ExpressionPriorityRule implements PriorityRules
 
     public function apply(array $parts): array
     {
+        $levels = [
+            ['*', '/'],
+            ['+', '-'],
+        ];
 
-        foreach (['*', '/', '+', '-'] as $operator) {
+        foreach ($levels as $level) {
 
-            $index = array_search($operator, $parts, true);
+            foreach ($parts as $index => $part) {
 
-            if ($index !== false) {
-                return [
-                    $parts[$index - 1],
-                    $parts[$index],
-                    $parts[$index + 1],
-                ];
+                if (in_array($part, $level, true)) {
+                    return [
+                        $parts[$index - 1],
+                        $parts[$index],
+                        $parts[$index + 1],
+                    ];
+                }
             }
         }
 
         return $parts;
     }
-
 }
