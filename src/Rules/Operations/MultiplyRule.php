@@ -11,33 +11,7 @@ final class MultiplyRule implements OperatorRule
 {
     public function calculate(array $parts): array
     {
-        $operatorPosition = $this->findMultiplicationOperator($parts);
-
-        for (; $operatorPosition !== null; $operatorPosition = $this->findMultiplicationOperator($parts)) {
-            $left = (float) $parts[$operatorPosition - 1];
-            $right = (float) $parts[$operatorPosition + 1];
-
-            $result = $left * $right;
-
-            array_splice(
-                $parts,
-                $operatorPosition - 1,
-                3,
-                [(string) $result]
-            );
-        }
-
-        return $parts;
+        return [(string) ((float) $parts[0] * (float) $parts[2])];
     }
 
-    private function findMultiplicationOperator(array $parts): ?int
-    {
-        foreach ($parts as $position => $part) {
-            if ($part === '*') {
-                return $position;
-            }
-        }
-
-        return null;
-    }
 }
