@@ -49,4 +49,45 @@ final class ExpressionPriorityRuleTest extends TestCase
         // Assert
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_resolves_expression_with_priority(): void
+    {
+        $parts = [
+            '10',
+            '-',
+            '2',
+            '*',
+            '4',
+        ];
+
+        $expected = [
+            '2',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function it_resolves_parentheses_before_other_operations(): void
+    {
+        $parts = [
+            '(',
+            '2',
+            '+',
+            '3',
+            ')',
+            '*',
+            '4',
+        ];
+        $expected = [
+            '20',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
 }
