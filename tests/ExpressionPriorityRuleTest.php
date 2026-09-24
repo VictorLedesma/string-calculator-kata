@@ -79,4 +79,19 @@ final class ExpressionPriorityRuleTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    #[Test]
+    public function it_returns_expression_when_there_is_no_operation(): void
+    {
+        $parts = [
+            '5',
+        ];
+        $expected = [
+            '5',
+        ];
+
+        $result = $this->rule->apply($parts);
+
+        $this->assertSame($expected, $result);
+    }
 }
